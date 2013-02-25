@@ -181,6 +181,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // Don't display content, if current IP doesn't match list of allowed IPs
     if( ! $this->bool_accessByIP )
     {
+$content = $content . $this->ffPowermailUid2;
+return $this->pi_wrapInBaseClass( $content );
       return;
     }
       // Don't display content, if current IP doesn't match list of allowed IPs
