@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('powermail4dev') . 'lib/userfunc/class.tx_pow
  * @package    TYPO3
  * @subpackage  powermail4dev
  *
- * @version 0.1.0
+ * @version 0.0.1
  * @since 0.0.1
  */
 
@@ -49,7 +49,7 @@ require_once(t3lib_extMgm::extPath('powermail4dev') . 'lib/userfunc/class.tx_pow
  *  142:     public function main( $content, $conf )
  *
  *              SECTION: DRS - Development Reporting System
- *  203:     private function init_accessByIP( )
+ *  203:     private function initAccessByIp( )
  *  232:     private function initDrs( )
  *
  *              SECTION: Flexform
@@ -111,6 +111,14 @@ class tx_powermail4dev_pi1 extends tslib_pibase
   */
   public $conf;
 
+
+ /**
+  * Flexform value config.csvAllowedIp
+  *
+  * @var string
+  */
+  private $ffConfigIp;
+
  /**
   * Flexform value powermail.uid
   *
@@ -151,7 +159,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
  * @param    string        $content: The content of the PlugIn
  * @param    array        $conf: The PlugIn Configuration
  * @return    string        The content that should be displayed on the website
- * @version 0.1.0
+ * @version 0.0.1
  * @since   0.0.1
  */
   public function main( $content, $conf )
@@ -168,10 +176,10 @@ class tx_powermail4dev_pi1 extends tslib_pibase
             
       // Init DRS - Development Reporting System
     $this->initDrs( );
-      // Init access by IP
-    $this->init_accessByIP( );
       // Init flexform values
     $this->initFlexform( );
+      // Init access by IP
+    $this->initAccessByIp( );
 
       // Update SOAP user data
     $content = $this->soapUpdate( $content );
@@ -215,19 +223,19 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 
 
   /**
- * init_accessByIP( ):  Set the global $bool_accessByIP.
+ * initAccessByIp( ):  Set the global $bool_accessByIP.
  *
  * @return    void
- * @version 0.1.0
- * @since   0.1.0
+ * @version 0.0.1
+ * @since   0.0.1
  */
-  private function init_accessByIP( )
+  private function initAccessByIp( )
   {
       // No access by default
     $this->bool_accessByIP = false;
 
       // Get list with allowed IPs
-    $csvIP      = $this->arr_extConf['allowedIPs'];
+    $csvIP      = $this->ffConfigIp;
     $currentIP  = t3lib_div :: getIndpEnv( 'REMOTE_ADDR' );
 
       // Current IP is an element in the list
@@ -236,8 +244,28 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     {
       $this->bool_accessByIP = true;
     }
-//var_dump( __METHOD__, __LINE__, $csvIP, $currentIP, $this->bool_accessByIP );
       // Current IP is an element in the list
+      
+      // DRS
+    if( ! $this->b_drs_flexform )
+    {
+      return;
+    }
+    switch( $this->bool_accessByIP )
+    {
+      case( true ):
+        $prompt = 'Access: current IP matchs the list of allowed IP.';
+        t3lib_div::devlog(' [OK/FLEXFORM] '. $prompt, $this->extKey, -1 );
+        break;
+      case( false ):
+      default:
+        $prompt = 'No access: current IP doesn\'t match the list of allowed IP.';
+        t3lib_div::devlog(' [WARN/FLEXFORM] '. $prompt, $this->extKey, 2 );
+        break;
+    }
+      // DRS
+
+    
   }
 
 
@@ -245,7 +273,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 /**
  * initDrs( ): Set the booleans for Warnings, Errors and DRS - Development Reporting System
  *
- * version 0.1.0
+ * version 0.0.1
  * since  0.0.1
  *
  * @return    void
@@ -320,7 +348,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 /**
  * initFlexform( ):
  *
- * version 0.1.0
+ * version 0.0.1
  * since  0.0.1
  *
  * @return    void
@@ -330,6 +358,9 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // Init methods for pi_flexform
     $this->pi_initPIflexForm();
 
+      // Sheet config
+    $this->initFlexformSheetConfig( );
+
       // Sheet powermail
     $this->initFlexformSheetPowermail( );
   }
@@ -337,10 +368,49 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 
 
 /**
+ * initFlexformSheetConfig( ):
+ *
+ * version 0.0.1
+ * since  0.0.1
+ *
+ * @return    void
+ */
+  private function initFlexformSheetConfig( )
+  {
+    $arr_piFlexform = $this->cObj->data['pi_flexform'];
+    $sheet          = 'config';
+
+    
+    
+      ////////////////////////////////////////////////
+      //
+      // Field csvAllowedIp
+
+    $field = 'csvAllowedIp';
+      // Set the global ffPowermailUid
+    $this->ffConfigIp = ( int ) $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
+
+      // DRS
+    if( $this->b_drs_flexform )
+    {
+      $prompt = 'config.csvAllowedIp is ' . $this->ffConfigIp;
+      t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 0 );
+    }
+      // DRS
+
+      // Field csvAllowedIp
+  }
+
+    
+    
+
+
+
+/**
  * initFlexformSheetPowermail( ):
  *
- * version 0.1.0
- * since  0.1.0
+ * version 0.0.1
+ * since  0.0.1
  *
  * @return    void
  */
@@ -497,8 +567,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
   * feuserSqlSelect( ):
   *
   * @return    boolean        true:
-  * @version  0.1.0
-  * @since    0.1.0
+  * @version  0.0.1
+  * @since    0.0.1
   */
   private function feuserSqlSelect( )
   {
@@ -606,8 +676,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
  * @param    string        $content: The content of the PlugIn
  * @param    array        $conf: The PlugIn Configuration
  * @return    string        The content that should be displayed on the website
- * @version 0.1.0
- * @since   0.1.0
+ * @version 0.0.1
+ * @since   0.0.1
  */
   private function session( $content )
   {
@@ -673,8 +743,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
  * sessionDatusersSet( ):
  *
  * @return    void
- * @version 0.1.0
- * @since   0.1.0
+ * @version 0.0.1
+ * @since   0.0.1
  */
   private function sessionDatusersSet( )
   { 
@@ -714,8 +784,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
  * sessionPowermailReset( ):
  *
  * @return    void
- * @version 0.1.0
- * @since   0.1.0
+ * @version 0.0.1
+ * @since   0.0.1
  */
   private function sessionPowermailReset( )
   {
@@ -776,8 +846,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
  * @param    string        $content: The content of the PlugIn
  * @param    array        $conf: The PlugIn Configuration
  * @return    string        The content that should be displayed on the website
- * @version 0.1.0
- * @since   0.1.0
+ * @version 0.0.1
+ * @since   0.0.1
  */
   private function soapUpdate( $content )
   {

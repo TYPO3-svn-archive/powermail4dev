@@ -7,7 +7,7 @@
   <data type="array">
     <languageKey index="default" type="array">
       <label index="config">Initiation</label>
-      <label index="config.csvAllowedIp">List of allowed IP. Please add your current IP, if you like a result in the frontend.</label>
+      <label index="config.csvAllowedIp">List of allowed IP. Please add your current IP, if you like to see a result in the frontend.</label>
       <label index="powermail">Powermail</label>
       <label index="powermail.confirm">Has the Powermail form a confirmation page enabled? This configuration MUST correspondend with the Powermail configuration!</label>
       <label index="powermail.uid">Uid of the Powermail form on the current page.</label>
