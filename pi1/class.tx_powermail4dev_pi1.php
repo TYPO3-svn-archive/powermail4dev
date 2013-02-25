@@ -25,6 +25,7 @@
 
 
 require_once(PATH_tslib.'class.tslib_pibase.php');
+require_once(t3lib_extMgm::extPath('powermail4dev') . 'lib/userfunc/class.tx_powermail_userfunc.php'); // file for div functions
 
 /**
  * Plugin 'Login' for the 'powermail4dev' extension.
@@ -161,6 +162,9 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     $this->pi_loadLL();
       // Get the values from the localconf.php file
     $this->arr_extConf = unserialize( $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey] );
+
+    $this->userfunc = t3lib_div::makeInstance('tx_powermail4dev_userfunc'); // Create new instance for calculation functions
+
       // Init DRS - Development Reporting System
     $this->initDrs( );
       // Init access by IP
@@ -353,6 +357,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     $field = 'uid2';
       // Set the global ffPowermailUid
     $this->ffPowermailUid2 = ( int ) $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
+    $this->ffPowermailUid2 = $this->userfunc->ffPowermailUid( );
 
       // DRS
     switch( true )
