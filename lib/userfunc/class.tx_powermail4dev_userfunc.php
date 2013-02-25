@@ -261,11 +261,11 @@ class tx_powermail4dev_userfunc
         die( $prompt );
     }
     
-    $powermailUid = $this->zzPowermailUidGet( $row );
+    $pmUid = $this->sqlPowermailUidGet( $row );
 //    echo '<pre>' . var_dump( $arr_pluginConf['row'] ) . '</pre>'; 
 //    echo '<pre>' . var_dump( $pObj->cObj->data ) . '</pre>'; 
     
-    $prompt = 'pid: ' . $row['pid'] . '; uid ' . $row['uid'] . ', powermail-uid: ' . $powermailUid;
+    $prompt = 'pid: ' . $row['pid'] . '; uid ' . $row['uid'] . ', powermail-uid: ' . $pmUid;
     return $prompt;
   }
   
