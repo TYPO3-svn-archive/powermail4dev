@@ -6,6 +6,14 @@
     </TCEforms>
     <type>array</type>
     <el>
+      <uid2>
+        <TCEforms>
+          <config>
+            <type>user</type>
+            <userFunc>tx_powermail4dev_userfunc->ffPowermailUid</userFunc>
+          </config>
+        </TCEforms>
+      </uid2>
       <uid>
         <TCEforms>
           <label>LLL:EXT:powermail4dev/pi1/locallang_flexform.xml:powermail.uid</label>

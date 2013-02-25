@@ -220,14 +220,12 @@ class tx_powermail4dev_userfunc
   
   /***********************************************
    *
-   * Sheets
+   * Flexform Sheet Powermail
    *
    **********************************************/
 
-
-
   /**
- * sDef_getArrViewsList: Get data query (and andWhere) for all list views of the current plugin.
+ * ffPowermailUid: 
  * Tab [General/sDEF]
  *
  * @param    array        $arr_pluginConf: Current plugin/flexform configuration
@@ -235,7 +233,31 @@ class tx_powermail4dev_userfunc
  * @version 0.1.0
  * @since 0.1.0
  */
-  public function sDEF_info( $arr_pluginConf )
+  public function ffPowermailUid( $arr_pluginConf )
+  {
+    return 2680;
+  }
+  
+  
+  
+  /***********************************************
+   *
+   * Flexform Sheet SDEF
+   *
+   **********************************************/
+
+
+
+  /**
+ * ffSdefInfo: Get data query (and andWhere) for all list views of the current plugin.
+ * Tab [General/sDEF]
+ *
+ * @param    array        $arr_pluginConf: Current plugin/flexform configuration
+ * @return    array        with the names of the views list
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+  public function ffSdefInfo( $arr_pluginConf )
   {
     $dummy = $arr_pluginConf;
     return $GLOBALS['LANG']->sL('LLL:EXT:powermail4dev/pi1/locallang_flexform.xml:sDEF.info') . '</h1>';

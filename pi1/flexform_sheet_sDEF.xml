@@ -10,7 +10,7 @@
         <TCEforms>
           <config>
             <type>user</type>
-            <userFunc>tx_powermail4dev_userfunc->sDEF_info</userFunc>
+            <userFunc>tx_powermail4dev_userfunc->ffSdefInfo</userFunc>
           </config>
         </TCEforms>
       </info>
