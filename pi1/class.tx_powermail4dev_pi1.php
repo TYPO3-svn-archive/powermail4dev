@@ -416,16 +416,10 @@ class tx_powermail4dev_pi1 extends tslib_pibase
  */
   private function initFlexformSheetPowermail( )
   {
-    $arr_piFlexform = $this->cObj->data['pi_flexform'];
-    $sheet          = 'powermail';
-
-    
-    
       ////////////////////////////////////////////////
       //
       // Field uid2
 
-    $field = 'uid2';
       // Set the global ffPowermailUid
     $this->ffPowermailUid2 = $this->userfunc->sqlPowermail( $this->cObj->data );
 
