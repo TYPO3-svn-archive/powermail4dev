@@ -283,7 +283,8 @@ class tx_powermail4dev_userfunc
     }
     
     $pmVersion = $EM_CONF['powermail']['version'];
-    
+var_dump( $EM_CONF );
+
     $prompt = 'This plugin handles the powermail form "' . $arrResult['title']. '" 
       (uid ' . $arrResult['uid']. '). Powermail mode confirm is ' . $pmFfConfirm . '.';
     $prompt = $prompt . '<br />
