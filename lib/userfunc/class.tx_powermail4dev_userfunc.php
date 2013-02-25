@@ -244,10 +244,26 @@ class tx_powermail4dev_userfunc
   {
     $prompt = null;
     $pObj   = $this->pObj;
-    echo '<pre>' . var_dump( $arr_pluginConf['row'] ) . '</pre>'; 
-    echo '<pre>' . var_dump( $pObj->cObj->data ) . '</pre>'; 
-        
-    $prompt = $prompt . 2680;
+    
+    switch( true )
+    {
+      case( $arr_pluginConf['row'] ):
+        $row = $arr_pluginConf['row'];
+        break;
+      case( $pObj->cObj->data ):
+        $row = $pObj->cObj->data;
+        break;
+      default:
+        $prompt = 'ERROR: unexpected result<br />
+          ffPowermailUid: row is empty<br />
+          Method: ' . __METHOD__ . '::' . __LINE__ . '<br />
+          TYPO3 extension: powermail4dev';
+        die( $prompt );
+    }
+//    echo '<pre>' . var_dump( $arr_pluginConf['row'] ) . '</pre>'; 
+//    echo '<pre>' . var_dump( $pObj->cObj->data ) . '</pre>'; 
+    
+    $prompt = 'pid: ' . $row['pid'] . '; uid ' . $row['uid'];
     return $prompt;
   }
   
