@@ -314,7 +314,7 @@ class tx_powermail4dev_userfunc
   private function sqlPowermailUidGet( $row )
   {
       // Powermail uid
-    $pmlUid = null;
+    $pmUid  = null;
       // Page uid
     $pid    = $row['pid'];
     
@@ -375,7 +375,7 @@ class tx_powermail4dev_userfunc
       // Handle result
 
 
-    return $pmlUid;
+    return $pmUid;
   }
 
 
