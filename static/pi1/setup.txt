@@ -1,0 +1,15 @@
+plugin.tx_powermail4dev_pi1 {
+  template {
+      // default file
+    file = EXT:powermail4dev/res/html/default.tmpl
+  }
+  flexform {
+    sDEF {
+        // Path to the image file with the PDF icon
+      imagefile = TEXT
+      imagefile {
+        value = EXT:powermail4dev/res/images/pdf.png
+      }
+    }
+  }
+}
