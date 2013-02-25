@@ -496,6 +496,8 @@ class tx_powermail4dev_userfunc
     $this->pmUid        = $pmRecord['uid'];  
     $this->pmTitle      = $pmRecord['header'];  
     $pmFlexform         = t3lib_div::xml2array( $pmRecord['pi_flexform'] );
+var_dump( $pmFlexform )
+die( );
     $this->pmFfConfirm  = $pmFlexform['data']['main']['lDEF']['settings.flexform.main.form']['vDEF'];
 //    var_export( $pmFfConfirm );
 //    var_export( $pmFlexform );
