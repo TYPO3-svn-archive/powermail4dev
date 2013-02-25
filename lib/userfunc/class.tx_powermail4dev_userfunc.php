@@ -348,7 +348,7 @@ class tx_powermail4dev_userfunc extends tslib_pibase
     {
       $prompt = 'ERROR: unexpected result<br />
         pid is empty<br />
-        Method: ' . __METHOD__ . '::' . __LINE__ . '<br />
+        Method: ' . __METHOD__ . ' (line ' . __LINE__ . ')<br />
         TYPO3 extension: powermail4dev';
       die( $prompt );
     }
