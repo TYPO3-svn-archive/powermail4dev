@@ -314,14 +314,15 @@ class tx_powermail4dev_userfunc
   private function sqlPowermailUidGet( $row )
   {
       // Powermail uid
-    $pmUid  = null;
+    $pmUid            = null;
       // Page uid
-    $pid    = $row['pid'];
+    $pid              = $row['pid'];
+    $andEnableFields  = $this->pObj->cObj->enableFields( 'tt_content' );
     
       // Query
     $select_fields  = '*';
     $from_table     = 'tt_content';
-    $where_clause   = "pid = " . $pid . " AND list_type = 'powermail_pi1'";
+    $where_clause   = "pid = " . $pid . " AND list_type = 'powermail_pi1'" . $andEnableFields;
     $groupBy        = '';
     $orderBy        = 'sorting';
     $limit          = '1';
