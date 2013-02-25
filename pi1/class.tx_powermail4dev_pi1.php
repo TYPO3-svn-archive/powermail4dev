@@ -25,7 +25,7 @@
 
 
 require_once(PATH_tslib.'class.tslib_pibase.php');
-require_once(t3lib_extMgm::extPath('powermail4dev') . 'lib/userfunc/class.tx_powermail_userfunc.php'); // file for div functions
+require_once(t3lib_extMgm::extPath('powermail4dev') . 'lib/userfunc/class.tx_powermail4dev_userfunc.php'); // file for div functions
 
 /**
  * Plugin 'Login' for the 'powermail4dev' extension.
