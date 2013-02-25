@@ -68,6 +68,22 @@ class tx_powermail4dev_userfunc
   * @var object
   */
   public $pObj;
+  
+ /**
+  * The version of the current powermail extension
+  *
+  * @var integer
+  */
+  public $intVersion;
+  
+ /**
+  * The version of the current powermail extension
+  *
+  * @var string
+  */
+  public $strVersion;
+  
+  
 
 
 
@@ -241,24 +257,38 @@ class tx_powermail4dev_userfunc
   */
   public function extMgmVersion( $_EXTKEY )
   {
-    $version = 0; 
+    $arrReturn = null;
+    
+    if( ! ( $this->intVersion === null ) )
+    {
+      $arrReturn['int'] = $this->intVersion;
+      $arrReturn['str'] = $this->strVersion;
+      return $arrReturn;
+    }
     
     if( ! t3lib_extMgm::isLoaded( $_EXTKEY ) )
     {
-      return $version;
+      $this->intVersion = 0;
+      $this->strVersion = 0;
+      $arrReturn['int'] = $this->intVersion;
+      $arrReturn['str'] = $this->strVersion;
+      return $arrReturn;
     }
 
     require_once( t3lib_extMgm::extPath( $_EXTKEY ) . 'ext_emconf.php');
-    $strVersion = $EM_CONF[$_EXTKEY]['version'];
+    $this->strVersion = $EM_CONF[$_EXTKEY]['version'];
 
       // Set version as integer (sample: 4.7.7 -> 4007007)
-    list( $main, $sub, $bugfix ) = explode( '.', $strVersion );
-    $version = ( ( int ) $main ) * 1000000;
-    $version = $version + ( ( int ) $sub ) * 1000;
-    $version = $version + ( ( int ) $bugfix ) * 1;
+    list( $main, $sub, $bugfix ) = explode( '.', $this->strVersion );
+    $intVersion = ( ( int ) $main ) * 1000000;
+    $intVersion = $intVersion + ( ( int ) $sub ) * 1000;
+    $intVersion = $intVersion + ( ( int ) $bugfix ) * 1;
       // Set version as integer (sample: 4.7.7 -> 4007007)
     
-    return $version;
+    $this->intVersion = $intVersion;
+    $arrReturn['int'] = $this->intVersion;
+    $arrReturn['str'] = $this->strVersion;
+    return $arrReturn;
   }
   
   
@@ -320,12 +350,12 @@ class tx_powermail4dev_userfunc
         break;
     }
     
-    $pmVersion = $this->extMgmVersion( 'powermail' );
+    $arrVersion = $this->extMgmVersion( 'powermail' );
 
     $prompt = 'This plugin handles the powermail form "' . $arrResult['title']. '" 
       (uid ' . $arrResult['uid']. '). Powermail mode confirm is ' . $pmFfConfirm . '.';
     $prompt = $prompt . '<br />
-      Version: ' . $pmVersion;
+      Version: ' . $arrVersion['str'] . ' (internal ' . $arrVersion['int'] . ')';
     $prompt = $prompt . '<br />
       BE AWARE: If you have more than one powermail form within the same page, you can get 
       unproper results. Even if the all other powermail forms are hidden or if they have a deleted status.';
