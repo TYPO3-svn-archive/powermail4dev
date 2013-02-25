@@ -230,8 +230,8 @@ class tx_powermail4dev_userfunc
  *
  * @param    array        $arr_pluginConf: Current plugin/flexform configuration
  * @return    array        with the names of the views list
- * @version 0.1.0
- * @since 0.1.0
+ * @version 0.0.1
+ * @since 0.0.1
  */
   public function ffPowermailUid( $arr_pluginConf )
   {
@@ -254,8 +254,8 @@ class tx_powermail4dev_userfunc
  *
  * @param    array        $arr_pluginConf: Current plugin/flexform configuration
  * @return    array        with the names of the views list
- * @version 0.1.0
- * @since 0.1.0
+ * @version 0.0.1
+ * @since 0.0.1
  */
   public function ffSdefInfo( $arr_pluginConf )
   {
