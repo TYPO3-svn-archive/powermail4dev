@@ -226,6 +226,45 @@ class tx_powermail4dev_userfunc
   
   /***********************************************
    *
+   * Extension Management
+   *
+   **********************************************/
+
+ /**
+  * extMgmVersion: 
+  *
+  * @param    string        $_EXTKEY  : extension key
+  * @return    integer      $version  : version of the given extension
+  * @access public
+  * @version 0.0.1
+  * @since 0.0.1
+  */
+  public function extMgmVersion( $_EXTKEY )
+  {
+    $version = 0; 
+    
+    if( ! t3lib_extMgm::isLoaded( $_EXTKEY ) )
+    {
+      return $version;
+    }
+
+    require_once( t3lib_extMgm::extPath( $_EXTKEY ) . 'ext_emconf.php');
+    $strVersion = $EM_CONF[$_EXTKEY]['version'];
+
+      // Set version as integer (sample: 4.7.7 -> 4007007)
+    list( $main, $sub, $bugfix ) = explode( '.', $strVersion );
+    $version = ( ( int ) $main ) * 1000000;
+    $version = $version + ( ( int ) $sub ) * 1000;
+    $version = $version + ( ( int ) $bugfix ) * 1;
+      // Set version as integer (sample: 4.7.7 -> 4007007)
+    
+    return $version;
+  }
+  
+  
+  
+  /***********************************************
+   *
    * Flexform Sheet Powermail
    *
    **********************************************/
@@ -281,10 +320,7 @@ class tx_powermail4dev_userfunc
         break;
     }
     
-    $pmVersion = $EM_CONF['powermail']['version'];
-$_EXTKEY = 'powermail';    
-require_once( t3lib_extMgm::extPath( 'powermail' ) . 'ext_emconf.php');
-var_dump( $EM_CONF[$_EXTKEY]['version'] );
+    $pmVersion = $this->extMgmVersion( 'powermail' );
 
     $prompt = 'This plugin handles the powermail form "' . $arrResult['title']. '" 
       (uid ' . $arrResult['uid']. '). Powermail mode confirm is ' . $pmFfConfirm . '.';
