@@ -355,7 +355,7 @@ class tx_powermail4dev_userfunc
     $prompt = 'This plugin handles the powermail form "' . $arrResult['title']. '" 
       (uid ' . $arrResult['uid']. '). Powermail mode confirm is ' . $pmFfConfirm . '.';
     $prompt = $prompt . '<br />
-      Version: ' . $arrVersion['str'] . ' (internal ' . $arrVersion['int'] . ')';
+      Powermail version: ' . $arrVersion['str'] . ' (internal ' . $arrVersion['int'] . ')';
     $prompt = $prompt . '<br />
       BE AWARE: If you have more than one powermail form within the same page, you can get 
       unproper results. Even if the all other powermail forms are hidden or if they have a deleted status.';
@@ -408,7 +408,7 @@ class tx_powermail4dev_userfunc
   */
   public function sqlPowermail( $row )
   {
-    $arrReturn = null; 
+    $arrReturn        = null; 
     
     if( $this->pmUid )
     {
@@ -429,21 +429,21 @@ class tx_powermail4dev_userfunc
         TYPO3 extension: powermail4dev';
       die( $prompt );
     }
-      // and where enable fields
-    if( isset( $this->pObj ) )
-    {
-      $andEnableFields  = $this->pObj->cObj->enableFields( 'tt_content' );
-    }
-    else
-    {
-      //$andEnableFields  = $this->cObj->enableFields( 'tt_content' );
-//      $andEnableFields  = tslib_cObj::enableFields( 'tt_content' );
-    }
-    
+
       // Query
     $select_fields  = '*';
     $from_table     = 'tt_content';
-    $where_clause   = "pid = " . $pid . " AND list_type = 'powermail_pi1'" . $andEnableFields;
+    $where_clause   = "pid = " . $pid . " AND hidden = 0 AND deleted = 0";
+    switch( true )
+    {
+      case( $this->intVersion < 2000000 ):
+        $where_clause = $where_clause . " AND CType = 'powermail_pi1'";
+        break;
+      case( $this->intVersion < 3000000 ):
+      default:
+        $where_clause = $where_clause . " AND list_type = 'powermail_pi1'";
+        break;
+    }
     $groupBy        = '';
     $orderBy        = 'sorting';
     $limit          = '1';
