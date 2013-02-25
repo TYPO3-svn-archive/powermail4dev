@@ -9,6 +9,7 @@ if (!defined ('TYPO3_MODE'))  die ('Access denied.');
     // INDEX
 
     // tt_content
+    // Methods for backend workflows
     // Plugin 1 configuration
     // Add pagetree icons
     // Enables the Include Static Templates
@@ -21,6 +22,14 @@ if (!defined ('TYPO3_MODE'))  die ('Access denied.');
 
   t3lib_div::loadTCA('tt_content');
     // tt_content
+
+
+
+    ///////////////////////////////////////////////////////////
+    //
+    // Methods for backend workflows
+  
+  require_once(t3lib_extMgm::extPath($_EXTKEY).'pi1/class.tx_datusers_pi1_backend.php');
 
 
 
