@@ -38,7 +38,7 @@
  *
  *
  *
- *   49: class tx_powermail4dev_extmanager
+ *   49: class tx_powermail4dev_userfunc
  *   67:     function promptCheckUpdate()
  *  102:     function promptCurrIP()
  *
@@ -46,7 +46,7 @@
  * (This index is automatically created/updated by the extension "extdeveval")
  *
  */
-class tx_powermail4dev_extmanager
+class tx_powermail4dev_userfunc
 {
   
  /**
@@ -217,7 +217,29 @@ class tx_powermail4dev_extmanager
 
     return $prompt;
   }
+  
+  /***********************************************
+   *
+   * Sheets
+   *
+   **********************************************/
 
+
+
+  /**
+ * sDef_getArrViewsList: Get data query (and andWhere) for all list views of the current plugin.
+ * Tab [General/sDEF]
+ *
+ * @param    array        $arr_pluginConf: Current plugin/flexform configuration
+ * @return    array        with the names of the views list
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+  public function sDEF_info( $arr_pluginConf )
+  {
+    $dummy = $arr_pluginConf;
+    return $GLOBALS['LANG']->sL('LLL:EXT:powermail4dev/pi1/locallang_flexform.xml:sDEF.info') . '</h1>';
+  }
 
 
 
@@ -229,9 +251,9 @@ class tx_powermail4dev_extmanager
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/powermail4dev/lib/class.tx_powermail4dev_extmanager.php'])
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/powermail4dev/lib/class.tx_powermail4dev_userfunc.php'])
 {
-  include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/powermail4dev/lib/class.tx_powermail4dev_extmanager.php']);
+  include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/powermail4dev/lib/class.tx_powermail4dev_userfunc.php']);
 }
 
 ?>

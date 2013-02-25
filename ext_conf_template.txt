@@ -1,8 +1,8 @@
-  # cat=debugging/dev/100;                type=user[EXT:powermail4dev/lib/extmanager/class.tx_powermail4dev_extmanager.php:tx_powermail4dev_extmanager->promptCurrIP]; label=Your current IP
+  # cat=debugging/dev/100;                type=user[EXT:powermail4dev/lib/userfunc/class.tx_powermail4dev_userfunc.php:tx_powermail4dev_userfunc->promptCurrIP]; label=Your current IP
 currentIP = 0
   # cat=debugging/dev/101;                type=string; label= Allowed IPs: comma seperated list of IPs, which will use the testuser by default (security risk!). Example: 127.0.0.1, 127.0.0.2, 87.193.24.35
 allowedIPs = 
   # cat=debugging/dev/102;                type=options[Disabled,Enabled]; label= DRS - Development Reporting System: Disabled: nothing will happen. Enabled: DRS will prompt workflow data. You need the extension devlog. 
 drs_mode = Don't log anything
-  # cat=debugging/others/199;             type=user[EXT:powermail4dev/lib/extmanager/class.tx_powermail4dev_extmanager.php:tx_powermail4dev_extmanager->promptExternalLinks]; label=External Links
+  # cat=debugging/others/199;             type=user[EXT:powermail4dev/lib/userfunc/class.tx_powermail4dev_userfunc.php:tx_powermail4dev_userfunc->promptExternalLinks]; label=External Links
 debugginExternalLinks = 0
