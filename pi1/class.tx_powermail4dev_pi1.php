@@ -251,70 +251,49 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       //////////////////////////////////////////////////////////////////////
       //
       // Set the DRS mode
-
-    if ($this->arr_extConf['drs_mode'] == 'All')
+    switch( true )
     {
-      $this->b_drs_all        = true;
-      $this->b_drs_error      = true;
-      $this->b_drs_warn       = true;
-      $this->b_drs_info       = true;
-      $this->b_drs_flexform   = true;
-      $this->b_drs_security   = true;
-      $this->b_drs_services   = true;
-      $this->b_drs_session    = true;
-      $this->b_drs_sql        = true;
-      $this->b_drs_update     = true;
-      $prompt = 'DRS - Development Reporting System: ' . $this->arr_extConf['drs_mode'];
-      t3lib_div::devlog('[INFO/DRS] '. $prompt, $this->extKey, 0);
-    }
-    if ($this->arr_extConf['drs_mode'] == 'Flexform')
-    {
-      $this->b_drs_error      = true;
-      $this->b_drs_warn       = true;
-      $this->b_drs_info       = true;
-      $this->b_drs_flexform   = true;
-      $prompt = 'DRS - Development Reporting System: ' . $this->arr_extConf['drs_mode'];
-      t3lib_div::devlog('[INFO/DRS] '. $prompt, $this->extKey, 0);
-    }
-    if ($this->arr_extConf['drs_mode'] == 'Security')
-    {
-      $this->b_drs_error      = true;
-      $this->b_drs_warn       = true;
-      $this->b_drs_info       = true;
-      $this->b_drs_security   = true;
-      $prompt = 'DRS - Development Reporting System: ' . $this->arr_extConf['drs_mode'];
-      t3lib_div::devlog('[INFO/DRS] '. $prompt, $this->extKey, 0);
-    }
-    if ($this->arr_extConf['drs_mode'] == 'Servives')
-    {
-      $this->b_drs_error      = true;
-      $this->b_drs_warn       = true;
-      $this->b_drs_info       = true;
-      $this->b_drs_services   = true;
-      $prompt = 'DRS - Development Reporting System: ' . $this->arr_extConf['drs_mode'];
-      t3lib_div::devlog('[INFO/DRS] '. $prompt, $this->extKey, 0);
-    }
-    if ($this->arr_extConf['drs_mode'] == 'Session')
-    {
-      $this->b_drs_error      = true;
-      $this->b_drs_warn       = true;
-      $this->b_drs_info       = true;
-      $this->b_drs_session    = true;
-      $prompt = 'DRS - Development Reporting System: ' . $this->arr_extConf['drs_mode'];
-      t3lib_div::devlog('[INFO/DRS] '. $prompt, $this->extKey, 0);
-    }
-    if ($this->arr_extConf['drs_mode'] == 'Update')
-    {
-      $this->b_drs_error      = true;
-      $this->b_drs_warn       = true;
-      $this->b_drs_info       = true;
-      $this->b_drs_sql        = true;
-      $this->b_drs_update     = true;
-      $prompt = 'DRS - Development Reporting System: ' . $this->arr_extConf['drs_mode'];
-      t3lib_div::devlog('[INFO/DRS] '. $prompt, $this->extKey, 0);
-    }
+      case( strtolower( $this->arr_extConf['drs_mode'] ) == 'all' ):
+      case( strtolower( $this->arr_extConf['drs_mode'] ) == 'enabled' ):
+        $this->b_drs_all        = true;
+        $this->b_drs_error      = true;
+        $this->b_drs_warn       = true;
+        $this->b_drs_info       = true;
+        $this->b_drs_flexform   = true;
+        $this->b_drs_session    = true;
+        $this->b_drs_sql        = true;
+        $this->b_drs_update     = true;
+        $prompt = 'DRS - Development Reporting System: ' . $this->arr_extConf['drs_mode'];
+        t3lib_div::devlog('[INFO/DRS] '. $prompt, $this->extKey, 0);
+        break;
+      case( strtolower( $this->arr_extConf['drs_mode'] ) == 'flexform' ):
+        $this->b_drs_error      = true;
+        $this->b_drs_warn       = true;
+        $this->b_drs_info       = true;
+        $this->b_drs_flexform   = true;
+        $prompt = 'DRS - Development Reporting System: ' . $this->arr_extConf['drs_mode'];
+        t3lib_div::devlog('[INFO/DRS] '. $prompt, $this->extKey, 0);
+        break;
+      case( strtolower( $this->arr_extConf['drs_mode'] ) == 'session' ):
+        $this->b_drs_error      = true;
+        $this->b_drs_warn       = true;
+        $this->b_drs_info       = true;
+        $this->b_drs_session    = true;
+        $prompt = 'DRS - Development Reporting System: ' . $this->arr_extConf['drs_mode'];
+        t3lib_div::devlog('[INFO/DRS] '. $prompt, $this->extKey, 0);
+        break;
+      case( strtolower( $this->arr_extConf['drs_mode'] ) == 'update' ):
+        $this->b_drs_error      = true;
+        $this->b_drs_warn       = true;
+        $this->b_drs_info       = true;
+        $this->b_drs_sql        = true;
+        $this->b_drs_update     = true;
+        $prompt = 'DRS - Development Reporting System: ' . $this->arr_extConf['drs_mode'];
+        t3lib_div::devlog('[INFO/DRS] '. $prompt, $this->extKey, 0);
+        break;
       // Set the DRS mode
 
+    }
   }
 
 
