@@ -244,7 +244,7 @@ class tx_powermail4dev_userfunc
   {
     $prompt = null;
     $pObj   = $this->pObj;
-    echo '<pre>' . var_dump( $arr_pluginConf ) . '</pre>'; 
+    echo '<pre>' . var_dump( $arr_pluginConf['row'] ) . '</pre>'; 
     echo '<pre>' . var_dump( $pObj->cObj->data ) . '</pre>'; 
         
     $prompt = $prompt . 2680;
