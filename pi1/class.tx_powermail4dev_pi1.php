@@ -187,6 +187,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
         ' . $prompt . '
       </div>' . PHP_EOL .
       $content;
+    
+    $content = $content . $this->ffPowermailUid2;
     return $this->pi_wrapInBaseClass( $content );
       // Display content for the current IP
   }
@@ -362,6 +364,56 @@ class tx_powermail4dev_pi1 extends tslib_pibase
   {
     $arr_piFlexform = $this->cObj->data['pi_flexform'];
     $sheet          = 'powermail';
+
+    
+    
+      ////////////////////////////////////////////////
+      //
+      // Field uid2
+
+    $field = 'uid2';
+      // Set the global ffPowermailUid
+    $this->ffPowermailUid2 = ( int ) $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
+
+      // DRS
+    switch( true )
+    {
+      case( empty( $this->ffPowermailUid2 ) ):
+        if( $this->b_drs_error )
+        {
+          $prompt = 'powermail.uid2 is empty. You will get trouble with prefilled data in the powermail form.';
+          t3lib_div::devlog(' [ERROR/FLEXFORM] '. $prompt, $this->extKey, 3 );
+        }
+        break;
+      default:
+        if( $this->b_drs_warn )
+        {
+          $prompt = 'powermail.uid2 is ' . $this->ffPowermailUid2 . '. Take care for a proper uid2. With
+            an unproper uid2 you will get trouble with prefilled data in the powermail form.';
+          t3lib_div::devlog(' [ERROR/FLEXFORM] '. $prompt, $this->extKey, 3 );
+        }
+        break;
+    }
+      // DRS
+
+      // DRS
+    if( $this->b_drs_flexform )
+    {
+      $prompt = 'powermail.confirm is ' . $this->ffPowermailUid2;
+      t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 0 );
+      if( $this->ffPowermailUid2 )
+      {
+        $prompt = 'SOAP data will updated only, if the confirm page in the Powermail plugin is enabled!';
+        t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 2 );
+      }
+      if( ! $this->ffPowermailUid2 )
+      {
+        $prompt = 'SOAP data will updated only, if the confirm page in the Powermail plugin is disabled!';
+        t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 2 );
+      }
+    }
+      // DRS
+      // Field uid2
 
     
     
