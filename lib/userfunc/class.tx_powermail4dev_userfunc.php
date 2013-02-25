@@ -340,7 +340,14 @@ class tx_powermail4dev_userfunc
       // Page uid
     $pid              = $row['pid'];
       // and where enable fields
-    $andEnableFields  = $this->pObj->cObj->enableFields( 'tt_content' );
+    if( isset( $this->pObj ) )
+    {
+      $andEnableFields  = $this->pObj->cObj->enableFields( 'tt_content' );
+    }
+    else
+    {
+      $andEnableFields  = $this->cObj->enableFields( 'tt_content' );
+    }
     
       // Query
     $select_fields  = '*';
