@@ -371,7 +371,7 @@ class tx_powermail4dev_userfunc
     }
       // RETURN: no row
       
-    $pmUid = $pmRecord[0]['uid'];  
+    $pmUid = $pmRecord['uid'];  
       // Handle result
 
 
