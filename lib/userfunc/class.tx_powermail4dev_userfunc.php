@@ -235,38 +235,51 @@ class tx_powermail4dev_userfunc
  * ffPowermailUid: 
  * Tab [General/sDEF]
  *
- * @param    array        $arr_pluginConf: Current plugin/flexform configuration
- * @return    array        with the names of the views list
+ * @param    array        $arr_pluginConf : Current plugin/flexform configuration
+ * @return    array       $arrResult      : uid, ffConfirm
+ * @access public
  * @version 0.0.1
  * @since 0.0.1
  */
   public function ffPowermailUid( $arr_pluginConf )
   {
     $prompt = null;
-    $pObj   = $this->pObj;
+//    $pObj   = $this->pObj;
     
-    switch( true )
-    {
-      case( $arr_pluginConf['row'] ):
+//    switch( true )
+//    {
+//      case( $arr_pluginConf['row'] ):
         $row = $arr_pluginConf['row'];
+//        break;
+//      case( $pObj->cObj->data ):
+//        $row = $pObj->cObj->data;
+//        break;
+//      default:
+//        $prompt = 'ERROR: unexpected result<br />
+//          ffPowermailUid: row is empty<br />
+//          Method: ' . __METHOD__ . '::' . __LINE__ . '<br />
+//          TYPO3 extension: powermail4dev';
+//        die( $prompt );
+//    }
+    
+    $arrResult = $this->sqlPowermail( $row );
+//    echo '<pre>' . var_dump( $arrResult ) . '</pre>'; 
+    
+    switch( $arrResult['ffConfirm'] )
+    {
+      case( true ):
+        $pmFfConfirm = 'enabled';
         break;
-      case( $pObj->cObj->data ):
-        $row = $pObj->cObj->data;
-        break;
+      case( false ):
       default:
-        $prompt = 'ERROR: unexpected result<br />
-          ffPowermailUid: row is empty<br />
-          Method: ' . __METHOD__ . '::' . __LINE__ . '<br />
-          TYPO3 extension: powermail4dev';
-        die( $prompt );
+        $pmFfConfirm = 'disabled';
+        break;
     }
     
-    $pmUid = $this->sqlPowermailUidGet( $row );
-//    echo '<pre>' . var_dump( $arr_pluginConf['row'] ) . '</pre>'; 
-//    echo '<pre>' . var_dump( $pObj->cObj->data ) . '</pre>'; 
+    $prompt = 'This plugin handles the powermail form "' . $arrResult['title']. '" 
+      (uid ' . $arrResult['uid']. '). Powermail mode confirm is ' . $pmFfConfirm . '.';
     
-    $prompt = 'pid: ' . $row['pid'] . '; uid ' . $row['uid'] . ', powermail-uid: ' . $pmUid;
-    return $prompt;
+    return $arrResult;
   }
   
   
@@ -303,20 +316,30 @@ class tx_powermail4dev_userfunc
    **********************************************/
 
  /**
-  * sqlPowermailUidGet: 
+  * sqlPowermail: 
   * Tab [General/sDEF]
   *
   * @param    array        $row          : current row
   * @return    integer     $powermailUid : uid of the powermail form
+  * @access public
   * @version 0.0.1
   * @since 0.0.1
   */
-  private function sqlPowermailUidGet( $row )
+  public function sqlPowermail( $row )
   {
-      // Powermail uid
-    $pmUid            = null;
+    $arrReturn = null; 
+    
+    if( $this->pmUid )
+    {
+      $arrReturn['uid']       = $this->pmUid;
+      $arrReturn['title']     = $this->pmTitle;
+      $arrReturn['ffConfirm'] = $this->pmFfConfirm;
+      return $arrReturn;
+    }
+    
       // Page uid
     $pid              = $row['pid'];
+      // and where enable fields
     $andEnableFields  = $this->pObj->cObj->enableFields( 'tt_content' );
     
       // Query
@@ -357,10 +380,10 @@ class tx_powermail4dev_userfunc
             );
       // Execute SELECT
 
-      // Handle result
+      // Current powermail record
     $pmRecord =  $GLOBALS['TYPO3_DB']->sql_fetch_assoc( $res );
 
-      // RETURN: no row
+      // RETURN : no row
     if( empty( $pmRecord ) )
     {
       if( $this->pObj->b_drs_error )
@@ -370,17 +393,20 @@ class tx_powermail4dev_userfunc
       }
       return false;
     }
-      // RETURN: no row
+      // RETURN : no row
       
-    $pmUid = $pmRecord['uid'];  
-      // Handle result
-    $pmFlexform = t3lib_div::xml2array( $pmRecord['pi_flexform'] );
-    $pmConfirmation = $pmFlexform['data']['main']['lDEF']['settings.flexform.main.form']['vDEF'];
-    var_export( $pmConfirmation );
-    var_export( $pmFlexform );
+    $this->pmUid        = $pmRecord['uid'];  
+    $this->pmTitle      = $pmRecord['header'];  
+    $pmFlexform         = t3lib_div::xml2array( $pmRecord['pi_flexform'] );
+    $this->pmFfConfirm  = $pmFlexform['data']['main']['lDEF']['settings.flexform.main.form']['vDEF'];
+//    var_export( $pmFfConfirm );
+//    var_export( $pmFlexform );
 
+    $arrReturn['uid']       = $this->pmUid;
+    $arrReturn['title']     = $this->pmTitle;
+    $arrReturn['ffConfirm'] = $this->pmFfConfirm;
 
-    return $pmUid;
+    return $arrReturn;
   }
 
 
