@@ -32,8 +32,6 @@
 * @since    0.0.1
 */
 
-require_once(PATH_tslib . 'class.tslib_pibase.php');
-
   /**
  * [CLASS/FUNCTION INDEX of SCRIPT]
  *
@@ -47,7 +45,7 @@ require_once(PATH_tslib . 'class.tslib_pibase.php');
  * (This index is automatically created/updated by the extension "extdeveval")
  *
  */
-class tx_powermail4dev_userfunc extends tslib_pibase
+class tx_powermail4dev_userfunc
 {
   
  /**
@@ -244,6 +242,7 @@ class tx_powermail4dev_userfunc extends tslib_pibase
  */
   public function ffPowermailUid( $arr_pluginConf )
   {
+    global $EM_CONF; 
     $prompt = null;
 //    $pObj   = $this->pObj;
     
@@ -262,6 +261,12 @@ class tx_powermail4dev_userfunc extends tslib_pibase
 //          TYPO3 extension: powermail4dev';
 //        die( $prompt );
 //    }
+        
+    if( ! t3lib_extMgm::isLoaded( 'powermail' ) )
+    {
+      $prompt = 'Sorry, but powermail isn\'t loaded!';
+      return $prompt;
+    }
     
     $arrResult = $this->sqlPowermail( $row );
 //    echo '<pre>' . var_dump( $arrResult ) . '</pre>'; 
@@ -277,8 +282,12 @@ class tx_powermail4dev_userfunc extends tslib_pibase
         break;
     }
     
+    $pmVersion = $EM_CONF['powermail']['version'];
+    
     $prompt = 'This plugin handles the powermail form "' . $arrResult['title']. '" 
       (uid ' . $arrResult['uid']. '). Powermail mode confirm is ' . $pmFfConfirm . '.';
+    $prompt = $prompt . '<br />
+      Version: ' . $pmVersion;
     $prompt = $prompt . '<br />
       BE AWARE: If you have more than one powermail form within the same page, you can get 
       unproper results. Even if the all other powermail forms are hidden or if they have a deleted status.';
