@@ -347,7 +347,8 @@ class tx_powermail4dev_userfunc extends tslib_pibase
     }
     else
     {
-      $andEnableFields  = $this->cObj->enableFields( 'tt_content' );
+      //$andEnableFields  = $this->cObj->enableFields( 'tt_content' );
+      $andEnableFields  = tslib_cObj::enableFields( 'tt_content' );
     }
     
       // Query
