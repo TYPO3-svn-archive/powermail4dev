@@ -493,14 +493,19 @@ class tx_powermail4dev_userfunc
     }
       // RETURN : no row
       
-    $this->pmUid        = $pmRecord['uid'];  
-    $this->pmTitle      = $pmRecord['header'];  
-    $pmFlexform         = t3lib_div::xml2array( $pmRecord['pi_flexform'] );
-var_dump( $pmFlexform );
-die( );
-    $this->pmFfConfirm  = $pmFlexform['data']['main']['lDEF']['settings.flexform.main.form']['vDEF'];
-//    var_export( $pmFfConfirm );
-//    var_export( $pmFlexform );
+    $this->pmUid    = $pmRecord['uid'];  
+    $this->pmTitle  = $pmRecord['header'];  
+    switch( true )
+    {
+      case( $this->intVersion < 2000000 ):
+        $this->pmFfConfirm  = $pmRecord['tx_powermail_confirm'];
+        break;
+      case( $this->intVersion < 3000000 ):
+      default:
+        $pmFlexform         = t3lib_div::xml2array( $pmRecord['pi_flexform'] );
+        $this->pmFfConfirm  = $pmFlexform['data']['main']['lDEF']['settings.flexform.main.form']['vDEF'];
+        break;
+    }
 
     $arrReturn['uid']       = $this->pmUid;
     $arrReturn['title']     = $this->pmTitle;
