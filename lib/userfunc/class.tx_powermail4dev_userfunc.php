@@ -32,6 +32,7 @@
 * @since    0.0.1
 */
 
+require_once(PATH_tslib . 'class.tslib_pibase.php');
 
   /**
  * [CLASS/FUNCTION INDEX of SCRIPT]
@@ -46,7 +47,7 @@
  * (This index is automatically created/updated by the extension "extdeveval")
  *
  */
-class tx_powermail4dev_userfunc
+class tx_powermail4dev_userfunc extends tslib_pibase
 {
   
  /**
