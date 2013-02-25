@@ -6,6 +6,7 @@
   </meta>
   <data type="array">
     <languageKey index="default" type="array">
+      <label index="config">Initiation</label>
       <label index="powermail">Powermail</label>
       <label index="powermail.confirm">Has the Powermail form a confirmation page enabled? This configuration MUST correspondend with the Powermail configuration!</label>
       <label index="powermail.uid">Uid of the Powermail form on the current page.</label>
@@ -68,6 +69,7 @@
       ]]></label>
     </languageKey>
     <languageKey index="de" type="array">
+      <label index="config">Aktivierung</label>
       <label index="powermail">Powermail</label>
       <label index="powermail.confirm">Ist im Powermail Formular eine Bestaetigungsseite aktiviert? Diese Einstellung MUSS die gleiche sein wie im Powermail Formular.</label>
       <label index="powermail.uid">Uid des Powermail-Formulars auf dieser Seite.</label>

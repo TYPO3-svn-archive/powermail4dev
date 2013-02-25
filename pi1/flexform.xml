@@ -5,6 +5,7 @@
   </meta>
   <sheets>
     <sDEF>EXT:powermail4dev/pi1/flexform_sheet_sDEF.xml</sDEF>
+    <config>EXT:powermail4dev/pi1/flexform_sheet_config.xml</config>
     <powermail>EXT:powermail4dev/pi1/flexform_sheet_powermail.xml</powermail>
   </sheets>
 </T3DataStructure>
