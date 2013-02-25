@@ -279,6 +279,9 @@ class tx_powermail4dev_userfunc extends tslib_pibase
     
     $prompt = 'This plugin handles the powermail form "' . $arrResult['title']. '" 
       (uid ' . $arrResult['uid']. '). Powermail mode confirm is ' . $pmFfConfirm . '.';
+    $prompt = $prompt . '<br />
+      BE AWARE: If you have more than one powermail form within the same page, you can get 
+      unproper results. Even if the all other powermail forms are hidden or if they have a deleted status.';
     
     return $prompt;
   }

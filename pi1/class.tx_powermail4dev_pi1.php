@@ -201,7 +201,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       </div>' . PHP_EOL .
       $content;
     
-    $content = $content . $this->ffPowermailUid2;
+    $content = $content . '<pre>' . var_export( $this->ffPowermailUid2, true ) . '</pre>';
     return $this->pi_wrapInBaseClass( $content );
       // Display content for the current IP
   }
@@ -428,7 +428,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     $field = 'uid2';
       // Set the global ffPowermailUid
     $this->ffPowermailUid2 = ( int ) $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
-    $this->ffPowermailUid2 = $this->userfunc->ffPowermailUid( );
+    $this->ffPowermailUid2 = $this->userfunc->sqlPowermail( );
 
       // DRS
     switch( true )
@@ -452,99 +452,6 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // DRS
 
       // Field uid2
-
-    
-    
-      ////////////////////////////////////////////////
-      //
-      // Field uid
-
-    $field = 'uid';
-      // Set the global ffPowermailUid
-    $this->ffPowermailUid = ( int ) $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
-
-      // DRS
-    switch( true )
-    {
-      case( empty( $this->ffPowermailUid ) ):
-        if( $this->b_drs_error )
-        {
-          $prompt = 'powermail.uid is empty. You will get trouble with prefilled data in the powermail form.';
-          t3lib_div::devlog(' [ERROR/FLEXFORM] '. $prompt, $this->extKey, 3 );
-        }
-        break;
-      default:
-        if( $this->b_drs_warn )
-        {
-          $prompt = 'powermail.uid is ' . $this->ffPowermailUid . '. Take care for a proper uid. With
-            an unproper uid you will get trouble with prefilled data in the powermail form.';
-          t3lib_div::devlog(' [ERROR/FLEXFORM] '. $prompt, $this->extKey, 3 );
-        }
-        break;
-    }
-      // DRS
-
-      // DRS
-    if( $this->b_drs_flexform )
-    {
-      $prompt = 'powermail.confirm is ' . $this->ffPowermailUid;
-      t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 0 );
-      if( $this->ffPowermailUid )
-      {
-        $prompt = 'SOAP data will updated only, if the confirm page in the Powermail plugin is enabled!';
-        t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 2 );
-      }
-      if( ! $this->ffPowermailUid )
-      {
-        $prompt = 'SOAP data will updated only, if the confirm page in the Powermail plugin is disabled!';
-        t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 2 );
-      }
-    }
-      // DRS
-      // Field uid
-
-    
-    
-      ////////////////////////////////////////////////
-      //
-      // Field confirm
-
-    $field = 'confirm';
-      // Get the value
-    $value = $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
-
-      // Set the global ffPowermailConfirm
-    switch( true )
-    {
-      case( $value === '0' ):
-        $this->ffPowermailConfirm = false;
-        break;
-      case( $value === null ):
-      case( $value === '1' ):
-      default:
-        $this->ffPowermailConfirm = true;
-        break;
-    }
-      // Set the global ffPowermailConfirm
-
-      // DRS
-    if( $this->b_drs_flexform )
-    {
-      $prompt = 'powermail.confirm is ' . $this->ffPowermailConfirm;
-      t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 0 );
-      if( $this->ffPowermailConfirm )
-      {
-        $prompt = 'SOAP data will updated only, if the confirm page in the Powermail plugin is enabled!';
-        t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 2 );
-      }
-      if( ! $this->ffPowermailConfirm )
-      {
-        $prompt = 'SOAP data will updated only, if the confirm page in the Powermail plugin is disabled!';
-        t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 2 );
-      }
-    }
-      // DRS
-      // Field confirm
   }
 
 

@@ -14,26 +14,6 @@
           </config>
         </TCEforms>
       </uid2>
-      <uid>
-        <TCEforms>
-          <label>LLL:EXT:powermail4dev/pi1/locallang_flexform.xml:powermail.uid</label>
-          <config>
-            <type>input</type>
-            <size>4</size>
-            <max>10</max>
-            <eval>trim,required</eval>
-          </config>
-        </TCEforms>
-      </uid>
-      <confirm>
-        <TCEforms>
-          <label>LLL:EXT:powermail4dev/pi1/locallang_flexform.xml:powermail.confirm</label>
-          <config>
-            <type>check</type>
-            <default>1</default>
-          </config>
-        </TCEforms>
-      </confirm>
     </el>
   </ROOT>
 </T3DataStructure>
