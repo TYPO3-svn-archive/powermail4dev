@@ -388,7 +388,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 
     $field = 'csvAllowedIp';
       // Set the global ffPowermailUid
-    $this->ffConfigIp = ( int ) $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
+    $this->ffConfigIp = $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
 
       // DRS
     if( $this->b_drs_flexform )
