@@ -6,34 +6,26 @@
     </TCEforms>
     <type>array</type>
     <el>
-      <uid2>
+      <currIp>
         <TCEforms>
           <config>
             <type>user</type>
-            <userFunc>tx_powermail4dev_userfunc->ffPowermailUid</userFunc>
+            <userFunc>tx_powermail4dev_userfunc->promptCurrIP</userFunc>
           </config>
         </TCEforms>
-      </uid2>
-      <uid>
+      </currIp>
+      <csvAllowedIp>
         <TCEforms>
-          <label>LLL:EXT:powermail4dev/pi1/locallang_flexform.xml:powermail.uid</label>
+          <label>LLL:EXT:powermail4dev/pi1/locallang_flexform.xml:config.csvAllowedIp</label>
           <config>
             <type>input</type>
-            <size>4</size>
-            <max>10</max>
-            <eval>trim,required</eval>
+            <size>40</size>
+            <max>255</max>
+            <eval>trim</eval>
           </config>
+          <default>127.0.0.1, 127.0.0.2</default>
         </TCEforms>
-      </uid>
-      <confirm>
-        <TCEforms>
-          <label>LLL:EXT:powermail4dev/pi1/locallang_flexform.xml:powermail.confirm</label>
-          <config>
-            <type>check</type>
-            <default>1</default>
-          </config>
-        </TCEforms>
-      </confirm>
+      </csvAllowedIp>
     </el>
   </ROOT>
 </T3DataStructure>
