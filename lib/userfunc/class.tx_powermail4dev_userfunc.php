@@ -343,6 +343,15 @@ class tx_powermail4dev_userfunc extends tslib_pibase
     
       // Page uid
     $pid              = $row['pid'];
+    
+    if( ! $pid )
+    {
+      $prompt = 'ERROR: unexpected result<br />
+        pid is empty<br />
+        Method: ' . __METHOD__ . '::' . __LINE__ . '<br />
+        TYPO3 extension: powermail4dev';
+      die( $prompt );
+    }
       // and where enable fields
     if( isset( $this->pObj ) )
     {
