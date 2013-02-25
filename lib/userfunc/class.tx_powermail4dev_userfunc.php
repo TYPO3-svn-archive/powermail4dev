@@ -83,6 +83,26 @@ class tx_powermail4dev_userfunc
   */
   public $strVersion;
   
+ /**
+  * Uid of the current powermail plugin
+  *
+  * @var integer
+  */
+  private $pmUid = null;
+  
+ /**
+  * Title of the current powermail plugin
+  *
+  * @var string
+  */
+  private $pmTitle = null;
+  
+ /**
+  * Confirm mode of the current powermail plugin
+  *
+  * @var boolean
+  */
+  private $pmFfConfirm = null;
   
 
 
@@ -401,16 +421,16 @@ class tx_powermail4dev_userfunc
   * Tab [General/sDEF]
   *
   * @param    array        $row          : current row
-  * @return    integer     $powermailUid : uid of the powermail form
+  * @return    integer     $powermailUid : uid, title, ffConfirm of the powermail form
   * @access public
   * @version 0.0.1
   * @since 0.0.1
   */
   public function sqlPowermail( $row )
   {
-    $arrReturn        = null; 
+    $arrReturn = null; 
     
-    if( $this->pmUid )
+    if( ! ( $this->pmUid === null ) )
     {
       $arrReturn['uid']       = $this->pmUid;
       $arrReturn['title']     = $this->pmTitle;
@@ -423,7 +443,7 @@ class tx_powermail4dev_userfunc
       $prompt = 'Sorry, but powermail isn\'t loaded!';
       return $prompt;
     }
-    $arrVersion = $this->extMgmVersion( 'powermail' );
+    $this->extMgmVersion( 'powermail' );
 
       // Page uid
     $pid              = $row['pid'];

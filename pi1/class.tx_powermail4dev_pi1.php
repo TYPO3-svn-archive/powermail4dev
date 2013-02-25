@@ -24,8 +24,8 @@
 
 
 
-require_once(PATH_tslib.'class.tslib_pibase.php');
-require_once(t3lib_extMgm::extPath('powermail4dev') . 'lib/userfunc/class.tx_powermail4dev_userfunc.php'); // file for div functions
+require_once( PATH_tslib . 'class.tslib_pibase.php' );
+require_once( t3lib_extMgm::extPath( 'powermail4dev' ) . 'lib/userfunc/class.tx_powermail4dev_userfunc.php'); // file for div functions
 
 /**
  * Plugin 'Login' for the 'powermail4dev' extension.
@@ -427,7 +427,6 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 
     $field = 'uid2';
       // Set the global ffPowermailUid
-    $this->ffPowermailUid2 = ( int ) $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
     $this->ffPowermailUid2 = $this->userfunc->sqlPowermail( $this->cObj->data );
 
       // DRS
