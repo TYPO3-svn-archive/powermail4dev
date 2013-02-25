@@ -7,7 +7,7 @@
   <data type="array">
     <languageKey index="default" type="array">
       <label index="config">Initiation</label>
-      <label index="config.csvAllowedIp">List of allowed IP. Please add your current IP.</label>
+      <label index="config.csvAllowedIp">List of allowed IP. Please add your current IP, if you like a result in the frontend.</label>
       <label index="powermail">Powermail</label>
       <label index="powermail.confirm">Has the Powermail form a confirmation page enabled? This configuration MUST correspondend with the Powermail configuration!</label>
       <label index="powermail.uid">Uid of the Powermail form on the current page.</label>
@@ -71,7 +71,7 @@
     </languageKey>
     <languageKey index="de" type="array">
       <label index="config">Aktivierung</label>
-      <label index="config.csvAllowedIp">Liste erlaubter IP. Bitte setze Deine aktuelle IP-Adresse ein.</label>
+      <label index="config.csvAllowedIp">Liste erlaubter IP. Bitte setze Deine aktuelle IP-Adresse ein, wenn Du ein Ergebnis im Frontend sehen willst.</label>
       <label index="powermail">Powermail</label>
       <label index="powermail.confirm">Ist im Powermail Formular eine Bestaetigungsseite aktiviert? Diese Einstellung MUSS die gleiche sein wie im Powermail Formular.</label>
       <label index="powermail.uid">Uid des Powermail-Formulars auf dieser Seite.</label>
