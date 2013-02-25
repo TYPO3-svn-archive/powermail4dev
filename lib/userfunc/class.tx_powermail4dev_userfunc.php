@@ -282,6 +282,7 @@ class tx_powermail4dev_userfunc
     }
     
     $pmVersion = $EM_CONF['powermail']['version'];
+$_EXTKEY = 'powermail';    
 require_once( t3lib_extMgm::extPath( 'powermail' ) . 'ext_emconf.php');
 var_dump( $EM_CONF );
 
