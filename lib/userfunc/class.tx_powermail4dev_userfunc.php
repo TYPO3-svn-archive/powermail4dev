@@ -335,6 +335,7 @@ class tx_powermail4dev_userfunc
       $prompt = 'Sorry, but powermail isn\'t loaded!';
       return $prompt;
     }
+    $arrVersion = $this->extMgmVersion( 'powermail' );
     
     $arrResult = $this->sqlPowermail( $row );
 //    echo '<pre>' . var_dump( $arrResult ) . '</pre>'; 
@@ -350,7 +351,6 @@ class tx_powermail4dev_userfunc
         break;
     }
     
-    $arrVersion = $this->extMgmVersion( 'powermail' );
 
     $prompt = 'This plugin handles the powermail form "' . $arrResult['title']. '" 
       (uid ' . $arrResult['uid']. '). Powermail mode confirm is ' . $pmFfConfirm . '.';
@@ -418,6 +418,13 @@ class tx_powermail4dev_userfunc
       return $arrReturn;
     }
     
+    if( ! t3lib_extMgm::isLoaded( 'powermail' ) )
+    {
+      $prompt = 'Sorry, but powermail isn\'t loaded!';
+      return $prompt;
+    }
+    $arrVersion = $this->extMgmVersion( 'powermail' );
+
       // Page uid
     $pid              = $row['pid'];
     
