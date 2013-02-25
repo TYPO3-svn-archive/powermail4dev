@@ -22,8 +22,8 @@
             <size>40</size>
             <max>255</max>
             <eval>trim</eval>
+            <default>127.0.0.1, 127.0.0.2</default>
           </config>
-          <default>127.0.0.1, 127.0.0.2</default>
         </TCEforms>
       </csvAllowedIp>
     </el>
