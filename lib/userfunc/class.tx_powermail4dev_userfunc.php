@@ -242,7 +242,6 @@ class tx_powermail4dev_userfunc
  */
   public function ffPowermailUid( $arr_pluginConf )
   {
-    global $EM_CONF; 
     $prompt = null;
 //    $pObj   = $this->pObj;
     
@@ -283,7 +282,8 @@ class tx_powermail4dev_userfunc
     }
     
     $pmVersion = $EM_CONF['powermail']['version'];
-var_dump(  t3lib_extMgm::extPath( 'powermail' ) );
+require_once( t3lib_extMgm::extPath( 'powermail' ) . 'ext_emconf.php');
+var_dump( $EM_CONF[ 'powermail' ][ 'version' ] );
 
     $prompt = 'This plugin handles the powermail form "' . $arrResult['title']. '" 
       (uid ' . $arrResult['uid']. '). Powermail mode confirm is ' . $pmFfConfirm . '.';
