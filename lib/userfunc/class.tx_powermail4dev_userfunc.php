@@ -63,6 +63,13 @@ class tx_powermail4dev_userfunc
   */
   private $bool_accessByIP;
 
+ /**
+  * The parent object
+  *
+  * @var object
+  */
+  public $pObj;
+
 
 
   /**
@@ -235,8 +242,11 @@ class tx_powermail4dev_userfunc
  */
   public function ffPowermailUid( $arr_pluginConf )
   {
-    unset( $arr_pluginConf ); 
-    $prompt = $prompt . '<hr />';
+    $prompt = null;
+    $pObj   = $this->pObj;
+    echo '<pre>' . var_dump( $arr_pluginConf ) . '</pre>'; 
+    echo '<pre>' . var_dump( $pObj->cObj->data ) . '</pre>'; 
+        
     $prompt = $prompt . 2680;
     return $prompt;
   }

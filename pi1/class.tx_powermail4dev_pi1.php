@@ -164,7 +164,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     $this->arr_extConf = unserialize( $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey] );
 
     $this->userfunc = t3lib_div::makeInstance('tx_powermail4dev_userfunc'); // Create new instance for calculation functions
-
+    $this->userfunc->pObj = $this;
+            
       // Init DRS - Development Reporting System
     $this->initDrs( );
       // Init access by IP
@@ -374,29 +375,12 @@ class tx_powermail4dev_pi1 extends tslib_pibase
         {
           $prompt = 'powermail.uid2 is ' . $this->ffPowermailUid2 . '. Take care for a proper uid2. With
             an unproper uid2 you will get trouble with prefilled data in the powermail form.';
-          t3lib_div::devlog(' [ERROR/FLEXFORM] '. $prompt, $this->extKey, 3 );
+          t3lib_div::devlog(' [OK/FLEXFORM] '. $prompt, $this->extKey, -1 );
         }
         break;
     }
       // DRS
 
-      // DRS
-    if( $this->b_drs_flexform )
-    {
-      $prompt = 'powermail.confirm is ' . $this->ffPowermailUid2;
-      t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 0 );
-      if( $this->ffPowermailUid2 )
-      {
-        $prompt = 'SOAP data will updated only, if the confirm page in the Powermail plugin is enabled!';
-        t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 2 );
-      }
-      if( ! $this->ffPowermailUid2 )
-      {
-        $prompt = 'SOAP data will updated only, if the confirm page in the Powermail plugin is disabled!';
-        t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 2 );
-      }
-    }
-      // DRS
       // Field uid2
 
     
