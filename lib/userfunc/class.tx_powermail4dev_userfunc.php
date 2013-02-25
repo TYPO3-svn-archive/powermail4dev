@@ -235,7 +235,7 @@ class tx_powermail4dev_userfunc
  */
   public function ffPowermailUid( $arr_pluginConf )
   {
-    echo '<pre>' .  var_dump( $arr_pluginConf ) . '</pre>';
+    unset( $arr_pluginConf ); 
     $prompt = $prompt . '<hr />';
     $prompt = $prompt . 2680;
     return $prompt;
