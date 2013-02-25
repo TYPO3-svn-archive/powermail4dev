@@ -260,10 +260,12 @@ class tx_powermail4dev_userfunc
           TYPO3 extension: powermail4dev';
         die( $prompt );
     }
+    
+    $powermailUid = $this->zzPowermailUidGet( $row );
 //    echo '<pre>' . var_dump( $arr_pluginConf['row'] ) . '</pre>'; 
 //    echo '<pre>' . var_dump( $pObj->cObj->data ) . '</pre>'; 
     
-    $prompt = 'pid: ' . $row['pid'] . '; uid ' . $row['uid'];
+    $prompt = 'pid: ' . $row['pid'] . '; uid ' . $row['uid'] . ', powermail-uid: ' . $powermailUid;
     return $prompt;
   }
   
@@ -290,6 +292,90 @@ class tx_powermail4dev_userfunc
   {
     $dummy = $arr_pluginConf;
     return $GLOBALS['LANG']->sL('LLL:EXT:powermail4dev/pi1/locallang_flexform.xml:sDEF.info') . '</h1>';
+  }
+  
+  
+  
+  /***********************************************
+   *
+   * SQL
+   *
+   **********************************************/
+
+ /**
+  * sqlPowermailUidGet: 
+  * Tab [General/sDEF]
+  *
+  * @param    array        $row          : current row
+  * @return    integer     $powermailUid : uid of the powermail form
+  * @version 0.0.1
+  * @since 0.0.1
+  */
+  private function sqlPowermailUidGet( $row )
+  {
+      // Powermail uid
+    $pmlUid = null;
+      // Page uid
+    $pid    = $row['pid'];
+    
+      // Query
+    $select_fields  = '*';
+    $from_table     = 'tt_content';
+    $where_clause   = "pid = " . $pid . " AND list_type = 'powermail_pi1'";
+    $groupBy        = '';
+    $orderBy        = 'sorting';
+    $limit          = '1';
+      // Query
+
+      // DRS
+    if( $this->pObj->b_drs_sql )
+    {
+      $query  = $GLOBALS['TYPO3_DB']->SELECTquery
+                (
+                  $select_fields,
+                  $from_table,
+                  $where_clause,
+                  $groupBy,
+                  $orderBy,
+                  $limit
+                );
+      $prompt = $query;
+      t3lib_div::devlog(' [INFO/SQL] '. $prompt, $this->pObj->extKey, 0 );
+    }
+      // DRS
+      
+      // Execute SELECT
+    $res =  $GLOBALS['TYPO3_DB']->exec_SELECTquery
+            (
+              $select_fields,
+              $from_table,
+              $where_clause,
+              $groupBy,
+              $orderBy,
+              $limit
+            );
+      // Execute SELECT
+
+      // Handle result
+    $pmRecord =  $GLOBALS['TYPO3_DB']->sql_fetch_assoc( $res );
+
+      // RETURN: no row
+    if( empty( $pmRecord ) )
+    {
+      if( $this->pObj->b_drs_error )
+      {
+        $prompt = 'Abort. SQL query is empty!';
+        t3lib_div::devlog(' [WARN/SQL] '. $prompt, $this->pObj->extKey, 2 );
+      }
+      return false;
+    }
+      // RETURN: no row
+      
+    $pmUid = $pmRecord[0]['uid'];  
+      // Handle result
+
+
+    return $pmlUid;
   }
 
 

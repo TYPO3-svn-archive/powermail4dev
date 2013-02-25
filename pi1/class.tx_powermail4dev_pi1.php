@@ -254,12 +254,12 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     switch( $this->bool_accessByIP )
     {
       case( true ):
-        $prompt = 'Access: current IP matchs the list of allowed IP.';
+        $prompt = 'Access: current IP matchs the list of allowed IP. Result will prompt to the frontend.';
         t3lib_div::devlog(' [OK/FLEXFORM] '. $prompt, $this->extKey, -1 );
         break;
       case( false ):
       default:
-        $prompt = 'No access: current IP doesn\'t match the list of allowed IP.';
+        $prompt = 'No access: current IP doesn\'t match the list of allowed IP. Result won\'t prompt to the frontend.';
         t3lib_div::devlog(' [WARN/FLEXFORM] '. $prompt, $this->extKey, 2 );
         break;
     }
