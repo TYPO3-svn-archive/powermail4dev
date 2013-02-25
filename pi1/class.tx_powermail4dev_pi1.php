@@ -440,9 +440,10 @@ class tx_powermail4dev_pi1 extends tslib_pibase
         }
         break;
       default:
-        if( $this->b_drs_warn )
+        if( $this->b_drs_flexform )
         {
-          $prompt = 'powermail.uid2 is ' . $this->ffPowermailUid2 . '. Take care for a proper uid2. With
+          $prompt = var_export( $this->ffPowermailUid2, true );
+          $prompt = 'powermail.uid2 is ' . $prompt . '. Take care for a proper uid2. With
             an unproper uid2 you will get trouble with prefilled data in the powermail form.';
           t3lib_div::devlog(' [OK/FLEXFORM] '. $prompt, $this->extKey, -1 );
         }
