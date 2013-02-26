@@ -6,14 +6,14 @@
     </TCEforms>
     <type>array</type>
     <el>
-      <info>
+      <powermailForm>
         <TCEforms>
           <config>
             <type>user</type>
-            <userFunc>tx_powermail4dev_userfunc->ffSdefInfo</userFunc>
+            <userFunc>tx_powermail4dev_userfunc->ffPowermailForm</userFunc>
           </config>
         </TCEforms>
-      </info>
+      </powermailForm>
     </el>
   </ROOT>
 </T3DataStructure>

@@ -316,12 +316,12 @@ class tx_powermail4dev_userfunc
   
   /***********************************************
    *
-   * Flexform Sheet Powermail
+   * Flexform
    *
    **********************************************/
 
   /**
- * ffPowermailUid: 
+ * ffPowermailForm: 
  * Tab [General/sDEF]
  *
  * @param    array        $arr_pluginConf : Current plugin/flexform configuration
@@ -330,7 +330,7 @@ class tx_powermail4dev_userfunc
  * @version 0.0.1
  * @since 0.0.1
  */
-  public function ffPowermailUid( $arr_pluginConf )
+  public function ffPowermailForm( $arr_pluginConf )
   {
     $prompt = null;
 //    $pObj   = $this->pObj;
@@ -345,7 +345,7 @@ class tx_powermail4dev_userfunc
 //        break;
 //      default:
 //        $prompt = 'ERROR: unexpected result<br />
-//          ffPowermailUid: row is empty<br />
+//          ffPowermailForm: row is empty<br />
 //          Method: ' . __METHOD__ . '::' . __LINE__ . '<br />
 //          TYPO3 extension: powermail4dev';
 //        die( $prompt );
@@ -383,8 +383,8 @@ class tx_powermail4dev_userfunc
       // RETURN : no powermail plugin
     
 
-    $prompt = 'This plugin handles the powermail form "' . $arrResult['title']. '" 
-      (uid ' . $arrResult['uid']. ').';
+    $prompt = 'This plugin handles the powermail form with the title "' . $arrResult['title']. '" 
+      and the uid #' . $arrResult['uid']. '.';
     $prompt = $prompt . '<br />
       Powermail mode confirm is ' . $pmFfConfirm . '.';
     $prompt = $prompt . '<br />
@@ -398,31 +398,6 @@ class tx_powermail4dev_userfunc
       ';
     
     return $prompt;
-  }
-  
-  
-  
-  /***********************************************
-   *
-   * Flexform Sheet SDEF
-   *
-   **********************************************/
-
-
-
-  /**
- * ffSdefInfo: Get data query (and andWhere) for all list views of the current plugin.
- * Tab [General/sDEF]
- *
- * @param    array        $arr_pluginConf: Current plugin/flexform configuration
- * @return    array        with the names of the views list
- * @version 0.0.1
- * @since 0.0.1
- */
-  public function ffSdefInfo( $arr_pluginConf )
-  {
-    unset( $arr_pluginConf );;
-    return $GLOBALS['LANG']->sL('LLL:EXT:powermail4dev/pi1/locallang_flexform.xml:sDEF.info') . '</h1>';
   }
   
   
