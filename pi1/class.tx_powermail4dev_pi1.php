@@ -477,6 +477,10 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     $field = 'gpvar';
       // Set the global pmUid
     $this->ffPromptsGpvar = $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
+    if( $this->ffPromptsGpvar === null )
+    {
+      $this->ffPromptsGpvar = true;
+    }
       // DRS
     if( $this->b_drs_flexform )
     {
@@ -490,6 +494,10 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     $field = 'session';
       // Set the global pmUid
     $this->ffPromptsSession = $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
+    if( $this->ffPromptsSession === null )
+    {
+      $this->ffPromptsSession = true;
+    }
       // DRS
     if( $this->b_drs_flexform )
     {
