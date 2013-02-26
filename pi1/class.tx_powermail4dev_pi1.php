@@ -258,7 +258,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     
     $arrResult = $this->initPmVersion( );
 
-    if( empty( $arrResult['int'] ) )
+    if( ! empty( $arrResult['int'] ) )
     {
       $prompt = 'Powermail doesn\'t seem to be installed!<br />
         Prompt by TYPO3 ' . $this->extKey;
