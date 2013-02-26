@@ -298,6 +298,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
         $this->b_drs_update     = true;
         $prompt = 'DRS - Development Reporting System: ' . $this->arr_extConf['drs_mode'];
         t3lib_div::devlog('[INFO/DRS] '. $prompt, $this->extKey, 0);
+        $prompt = 'tt_content.uid: ' . $this->cObj->data['uid'];
+        t3lib_div::devlog('[INFO/DRS] '. $prompt, $this->extKey, 0);
         break;
       case( strtolower( $this->arr_extConf['drs_mode'] ) == 'flexform' ):
         $this->b_drs_error      = true;
