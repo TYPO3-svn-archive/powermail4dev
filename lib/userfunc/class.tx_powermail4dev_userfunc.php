@@ -361,6 +361,15 @@ class tx_powermail4dev_userfunc
     $arrResult = $this->sqlPowermail( $row );
 //    echo '<pre>' . var_dump( $arrResult ) . '</pre>'; 
     
+      // RETURN : no powermail plugin
+    if( ! $arrResult['uid'] )
+    {
+      $prompt = 'There isn\'t any powermail plugin at the current page!';
+      $prompt = $prompt . '<br />
+        Please add a powermail plugin, if you want to work with Powermail for developers.';
+      return $prompt;
+    }
+    
     switch( $arrResult['ffConfirm'] )
     {
       case( true ):
@@ -371,6 +380,7 @@ class tx_powermail4dev_userfunc
         $pmFfConfirm = 'disabled';
         break;
     }
+      // RETURN : no powermail plugin
     
 
     $prompt = 'This plugin handles the powermail form "' . $arrResult['title']. '" 
