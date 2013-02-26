@@ -715,7 +715,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     $post = t3lib_div::_POST( 'tx_powermail_pi1' );
 
       // RETURN: no parameter
-    if( empty( $get ) || empty( $post ) )
+    if( empty( $get ) && empty( $post ) )
     {
       $prompt = 'There isn\'t any powermail GET-/POST-parameter!';
       if( $this->b_drs_gpvar )
@@ -879,8 +879,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // RETURN : session data should not displayed
       
       // Get the Powermail session data
-    $gpvar = t3lib_div::_GP( 'tx_powermail_pi1' );
-    $uid  = $gpvar['form'];
+    $post = t3lib_div::_POST( 'tx_powermail_pi1' );
+    $uid  = $post['form'];
     $key  = 'powermailFormstart';
     $sessionData = $GLOBALS['TSFE']->fe_user->getKey( 'ses', $key . $uid );
 
