@@ -711,10 +711,11 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // RETURN : gpvar should not displayed
       
       // Get the Powermail Paramater
-    $gpvar = t3lib_div::_GET( 'tx_powermail_pi1' );
+    $get  = t3lib_div::_GET( 'tx_powermail_pi1' );
+    $post = t3lib_div::_POST( 'tx_powermail_pi1' );
 
       // RETURN: no parameter
-    if( empty( $gpvar ) )
+    if( empty( $get ) || empty( $post ) )
     {
       $prompt = 'There isn\'t any powermail GET-/POST-parameter!';
       if( $this->b_drs_gpvar )
@@ -734,8 +735,17 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       <h2>
         Powermail GET-/POST-parameter
       </h2>
+      <h3>
+        GET
+      </h3>
       <pre style="text-align:left;">
-' . var_export( $gpvar, true ) . '
+' . var_export( $get, true ) . '
+      </pre>
+      <h3>
+        POST
+      </h3>
+      <pre style="text-align:left;">
+' . var_export( $post, true ) . '
       </pre>';
       // prompt with GET-/POST-parameter
 
