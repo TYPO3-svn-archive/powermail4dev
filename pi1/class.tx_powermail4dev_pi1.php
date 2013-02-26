@@ -514,7 +514,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
  */
   private function initPmVersion( )
   {
-    return $this->extMgmVersion( 'powermail' );
+    return $this->user->extMgmVersion( 'powermail' );
   }
 
 
