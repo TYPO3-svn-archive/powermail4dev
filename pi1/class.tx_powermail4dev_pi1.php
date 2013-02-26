@@ -220,7 +220,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     
     $content = $content . $this->promptGpvar( );
     
-//    $content = $content . $this->promptSession( );
+    $content = $content . $this->promptSession( );
 
       // Wrap : grey border
     $content = '
@@ -880,7 +880,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     {
       if( $this->b_drs_gpvar )
       {
-        $prompt = 'There isn\'t any powermail parameter!';
+        $prompt = 'There isn\'t any powermail GET-/POST-parameter!';
         t3lib_div::devlog(' [INFO/GPVAR] '. $prompt, $this->extKey, 0 );
       }
       $content = '
@@ -891,20 +891,84 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     }
       // RETURN: no parameter
     
+      // prompt with GET-/POST-parameter
     $prompt = '
       <h2>
-        Powermail GET-/POST parameter
+        Powermail GET-/POST-parameter
       </h2>
       <pre>
         ' . var_export( $gpvar, true ) . '
       </pre>';
+      // prompt with GET-/POST-parameter
 
+      // wrap with dark blue border
     $content = '
       <div style="border:.4em solid darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
         ' . $prompt . '
       </div>';
+      // wrap with dark blue border
+
     return $content;
-      // DRS
+  }
+
+
+
+/**
+ * promptSession( ):
+ *
+ * @return    string        The content that should be displayed on the website
+ * @access  private
+ * @version 0.0.1
+ * @since   0.0.1
+ */
+  private function promptSession(  )
+  {
+    $content = null; 
+    
+      // RETURN : gpvar should not displayed
+    if( ! $this->ffPromptsSession )
+    {
+      return $content;
+    }
+      // RETURN : gpvar should not displayed
+      
+      // Get the Powermail session data
+    $sessionData = $GLOBALS['TSFE']->fe_user->getKey( 'ses', 'powermail_' . $this->pmUid );
+
+      // RETURN: no session data
+    if( empty( $sessionData ) )
+    {
+      if( $this->b_drs_session )
+      {
+        $prompt = 'There isn\'t any powermail session data!';
+        t3lib_div::devlog(' [INFO/GPVAR] '. $prompt, $this->extKey, 0 );
+      }
+      $content = '
+        <div style="border:.4em solid darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
+          ' . $prompt . '
+        </div>';
+      return $content;
+    }
+      // RETURN: no parameter
+    
+      // prompt with session data
+    $prompt = '
+      <h2>
+        Powermail session data
+      </h2>
+      <pre>
+        ' . var_export( $sessionData, true ) . '
+      </pre>';
+      // prompt with session data
+
+      // wrap with dark blue border
+    $content = '
+      <div style="border:.4em solid darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
+        ' . $prompt . '
+      </div>';
+      // wrap with dark blue border
+
+    return $content;
   }
 
 
