@@ -111,13 +111,27 @@ class tx_powermail4dev_pi1 extends tslib_pibase
   */
   public $conf;
 
-
  /**
   * Flexform value config.csvAllowedIp
   *
   * @var string
   */
   private $ffConfigIp;
+
+ /**
+  * Flexform value prompts.gpvar
+  *
+  * @var boolean
+  */
+  private $ffPromptsGpvar;
+
+ /**
+  * Flexform value prompts.session
+  *
+  * @var boolean
+  */
+  private $ffPromptsSession;
+
 
  /**
   * Flexform value powermail.confirm
@@ -329,8 +343,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 /**
  * initDrs( ): Set the booleans for Warnings, Errors and DRS - Development Reporting System
  *
- * version 0.0.1
- * since  0.0.1
+ * @version 0.0.1
+ * @since  0.0.1
  *
  * @return    void
  */
@@ -389,25 +403,17 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 
 
 
-
-
-
-
-
-
   /***********************************************
    *
    * Flexform
    *
    **********************************************/
 
-
-
 /**
  * initFlexform( ):
  *
- * version 0.0.1
- * since  0.0.1
+ * @version 0.0.1
+ * @since  0.0.1
  *
  * @return    void
  */
@@ -416,20 +422,22 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // Init methods for pi_flexform
     $this->pi_initPIflexForm();
 
+      // Sheet SDEF
+    $this->initFlexformSheetSdef( );
+
       // Sheet config
     $this->initFlexformSheetConfig( );
 
-      // Sheet powermail
-    $this->initFlexformSheetSdef( );
+      // Sheet prompts
+    $this->initFlexformSheetPrompts( );
+
   }
-
-
 
 /**
  * initFlexformSheetConfig( ):
  *
- * version 0.0.1
- * since  0.0.1
+ * @version 0.0.1
+ * @since  0.0.1
  *
  * @return    void
  */
@@ -438,16 +446,10 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     $arr_piFlexform = $this->cObj->data['pi_flexform'];
     $sheet          = 'config';
 
-    
-    
-      ////////////////////////////////////////////////
-      //
       // Field csvAllowedIp
-
     $field = 'csvAllowedIp';
       // Set the global pmUid
     $this->ffConfigIp = $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
-
       // DRS
     if( $this->b_drs_flexform )
     {
@@ -455,60 +457,78 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 0 );
     }
       // DRS
-
       // Field csvAllowedIp
   }
 
-    
-    
+/**
+ * initFlexformSheetPrompts( ):
+ *
+ * @version 0.0.1
+ * @since  0.0.1
+ *
+ * @return    void
+ */
+  private function initFlexformSheetPrompts( )
+  {
+    $arr_piFlexform = $this->cObj->data['pi_flexform'];
+    $sheet          = 'prompts';
 
-
+      // Field gpvar
+    $field = 'gpvar';
+      // Set the global pmUid
+    $this->ffPromptsGpvar = $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
+      // DRS
+    if( $this->b_drs_flexform )
+    {
+      $prompt = 'prompts.gpvar is ' . $this->ffPromptsGpvar;
+      t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 0 );
+    }
+      // DRS
+      // Field gpvar
+      
+      // Field session
+    $field = 'session';
+      // Set the global pmUid
+    $this->ffPromptsSession = $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
+      // DRS
+    if( $this->b_drs_flexform )
+    {
+      $prompt = 'prompts.session is ' . $this->ffPromptsSession;
+      t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 0 );
+    }
+      // DRS
+      // Field session
+  }
 
 /**
  * initFlexformSheetSdef( ):
  *
- * version 0.0.1
- * since  0.0.1
+ * @version 0.0.1
+ * @since  0.0.1
  *
  * @return    void
  */
   private function initFlexformSheetSdef( )
   {
-      ////////////////////////////////////////////////
-      //
-      // Field uid2
-
-      // Set the global pmUid
+      // Get values for the globals pmUid, pmTitle, pmConfirm
     $arrResult = $this->userfunc->sqlPowermail( $this->cObj->data );
 
+      // Set the globals pmUid, pmTitle, pmConfirm
     $this->pmUid     = $arrResult['uid'];
     $this->pmTitle   = $arrResult['title'];
     $this->pmConfirm = $arrResult['ffConfirm'];
 
-
       // DRS
-    switch( true )
+    if( $this->b_drs_flexform )
     {
-      case( empty( $this->pmUid2 ) ):
-        if( $this->b_drs_error )
-        {
-          $prompt = 'powermail.uid2 is empty. You will get trouble with prefilled data in the powermail form.';
-          t3lib_div::devlog(' [ERROR/FLEXFORM] '. $prompt, $this->extKey, 3 );
-        }
-        break;
-      default:
-        if( $this->b_drs_flexform )
-        {
-          $prompt = var_export( $this->pmUid2, true );
-          $prompt = 'powermail.uid2 is ' . $prompt . '. Take care for a proper uid2. With
-            an unproper uid2 you will get trouble with prefilled data in the powermail form.';
-          t3lib_div::devlog(' [OK/FLEXFORM] '. $prompt, $this->extKey, -1 );
-        }
-        break;
+      $prompt = 'SDEF powermail.uid: ' . $this->pmUid;
+      t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 0 );
+      $prompt = 'SDEF powermail.title: ' . $this->pmTitle;
+      t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 0 );
+      $prompt = 'SDEF powermail.confirm: ' . $this->pmConfirm;
+      t3lib_div::devlog(' [INFO/FLEXFORM] '. $prompt, $this->extKey, 0 );
     }
       // DRS
-
-      // Field uid2
   }
 
 /**
