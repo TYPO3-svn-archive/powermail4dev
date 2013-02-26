@@ -181,10 +181,10 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // Init access by IP
     $this->initAccessByIp( );
 
-      // Update SOAP user data
-    $content = $this->soapUpdate( $content );
-      // Set session data for Powermail
-    $content = $this->session( $content );
+//      // Update SOAP user data
+//    $content = $this->soapUpdate( $content );
+//      // Set session data for Powermail
+//    $content = $this->session( $content );
 
       // Don't display content, if current IP doesn't match list of allowed IPs
     if( ! $this->bool_accessByIP )
