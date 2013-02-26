@@ -182,6 +182,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     $this->conf = $conf;
     
     $prompt = $this->init( );
+    
+      // RETURN : init failed
     if( $prompt )
     {
       $content = '
@@ -191,6 +193,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       $content;
       return $this->pi_wrapInBaseClass( $content );
     }
+      // RETURN : init failed
 
 
       // Display content for the current IP

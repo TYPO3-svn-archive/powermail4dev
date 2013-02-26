@@ -6,6 +6,6 @@
   <sheets>
     <sDEF>EXT:powermail4dev/pi1/flexform_sheet_sDEF.xml</sDEF>
     <config>EXT:powermail4dev/pi1/flexform_sheet_config.xml</config>
-    <controlling>EXT:powermail4dev/pi1/flexform_sheet_controlling.xml</controlling>
+    <prompts>EXT:powermail4dev/pi1/flexform_sheet_prompts.xml</prompts>
   </sheets>
 </T3DataStructure>
