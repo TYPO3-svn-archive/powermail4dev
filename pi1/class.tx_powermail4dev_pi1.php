@@ -891,7 +891,13 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     }
       // RETURN: no parameter
     
-    $prompt = '<pre>' . var_export( $gpvar, true ) . '</pre>';
+    $prompt = '
+      <h2>
+        Powermail GET-/POST parameter
+      </h2>
+      <pre>
+        ' . var_export( $gpvar, true ) . '
+      </pre>';
 
     $content = '
       <div style="border:.4em solid darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
