@@ -220,7 +220,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     
     $content = $content . $this->promptGpvar( );
     
-    $content = $content . $this->promptSession( );
+//    $content = $content . $this->promptSession( );
 
       // Wrap : grey border
     $content = '
