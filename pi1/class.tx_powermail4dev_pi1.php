@@ -220,7 +220,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // Prompt : content for current IP only
     $prompt = '
       <div style="border:.4em solid darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
-        Debugging report isn\'t visible for other clients. It\'s visible for allowed IPs (' . $this->ffConfigIp . ') only.
+        Debugging report isn\'t visible for other clients.<br />
+        It\'s visible for allowed IPs (' . $this->ffConfigIp . ') only.
       </div>';
     $content = $content . $prompt;
       // Prompt : content for current IP only
