@@ -195,17 +195,24 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // Globalise TypoScript configuration
     $this->conf = $conf;
     
-    $prompt = $this->init( );
+    $arrResult = $this->init( );
     
       // RETURN : init failed
-    if( $prompt )
+    if( ! empty( $arrResult ) )
     {
-      $content = '
-        <div style="border:.4em solid red;margin:0 0 1em 0;padding:1em;text-align:center;">
-          ' . $prompt . '
-        </div>' . PHP_EOL .
-      $content;
-      return $this->pi_wrapInBaseClass( $content );
+      if( $arrResult['prompt'] )
+      {
+        $content = '
+          <div style="border:.4em solid red;margin:0 0 1em 0;padding:1em;text-align:center;">
+            ' . $prompt . '
+          </div>' . PHP_EOL .
+        $content;
+        $content = $this->pi_wrapInBaseClass( $content );
+      }
+      if( $arrResult['return'] )
+      {
+        return $content;
+      }
     }
       // RETURN : init failed
 
@@ -252,13 +259,15 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 /**
  * init( ): 
  *
- * @return    string        $prompt : A prompt in case of an error
+ * @return    array        $arrReturn : prompt, return (in case of an error)
  * @access: private
  * @version 0.0.1
  * @since   0.0.1
  */
   private function init( )
   {
+    $arrReturn = null;
+    
       // Init localisation
     $this->pi_loadLL();
 
@@ -279,7 +288,10 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // Don't display content, if current IP doesn't match list of allowed IPs
     if( ! $this->bool_accessByIP )
     {
-      return;
+      $prompt               = null;
+      $arrReturn['prompt']  = $prompt;
+      $arrReturn['return']  = true;
+      return $arrReturn;
     }
       // Don't display content, if current IP doesn't match list of allowed IPs
     
@@ -289,7 +301,9 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     {
       $prompt = 'Powermail doesn\'t seem to be installed!<br />
         Prompt by TYPO3 ' . $this->extKey;
-      return $prompt;      
+      $arrReturn['prompt'] = $prompt;
+      $arrReturn['return'] = true;
+      return $arrReturn;
     }
     
     $this->pmIntVersion = $arrResult['int'];

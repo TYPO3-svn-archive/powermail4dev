@@ -394,7 +394,7 @@ class tx_powermail4dev_userfunc
         BE AWARE:
       </span>
       If you have more than one powermail form within the same page, you can get 
-      unproper results. Even if the all other powermail forms are hidden or if they have a deleted status.
+      unproper results. Even if all other powermail forms are hidden or if they have a deleted status.
       ';
     
     return $prompt;
