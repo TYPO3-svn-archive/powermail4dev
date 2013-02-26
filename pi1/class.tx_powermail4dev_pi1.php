@@ -185,7 +185,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     if( $prompt )
     {
       $content = '
-        <div style="border:.4em solid darkRed;margin:0 0 1em 0;padding:1em;text-align:center;">
+        <div style="border:.4em solid red;margin:0 0 1em 0;padding:1em;text-align:center;">
           ' . $prompt . '
         </div>' . PHP_EOL .
       $content;
@@ -196,7 +196,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // Display content for the current IP
     $prompt = 'Debugging report isn\'t visible for other clients. It\'s visible for allowed IPs only.';
     $content = '
-      <div style="border:.4em solid  darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
+      <div style="border:.4em solid darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
         ' . $prompt . '
       </div>' . PHP_EOL .
       $content;
