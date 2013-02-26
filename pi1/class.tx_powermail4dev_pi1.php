@@ -210,19 +210,25 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // RETURN : init failed
 
 
-      // Display content for the current IP
-    $prompt = 'Debugging report isn\'t visible for other clients. It\'s visible for allowed IPs only.';
-    $content = '
+      // Prompt : content for current IP only
+    $prompt = '
       <div style="border:.4em solid darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
-        ' . $prompt . '
-      </div>' . PHP_EOL .
-      $content;
+        Debugging report isn\'t visible for other clients. It\'s visible for allowed IPs only.
+      </div>';
+    $content = $content . $prompt;
+      // Prompt : content for current IP only
+    
+    $content = $content . $this->promptGpvar( );
+    
+    $content = $content . $this->promptSession( );
+
+      // Wrap : grey border
     $content = '
       <div style="border:.4em solid grey;margin:1em 0;padding:1em 1em 0 1em;">
         ' . $content . '
       </div>';
+      // Wrap : grey border
     
-//    $content = $content . '<pre>' . var_export( $this->pmUid2, true ) . '</pre>';
     return $this->pi_wrapInBaseClass( $content );
       // Display content for the current IP
   }
@@ -363,6 +369,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
         $this->b_drs_warn       = true;
         $this->b_drs_info       = true;
         $this->b_drs_flexform   = true;
+        $this->b_drs_gpvar      = true;
         $this->b_drs_session    = true;
         $this->b_drs_sql        = true;
         $this->b_drs_update     = true;
@@ -840,122 +847,55 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 
   /***********************************************
    *
-   * SOAP
+   * prompts
    *
    **********************************************/
 
 
 
 /**
- * soapUpdate( ): Main method of your PlugIn
+ * promptVar( ):
  *
- * @param    string        $content: The content of the PlugIn
- * @param    array        $conf: The PlugIn Configuration
  * @return    string        The content that should be displayed on the website
+ * @access  private
  * @version 0.0.1
  * @since   0.0.1
  */
-  private function soapUpdate( $content )
+  private function promptGpvar(  )
   {
+    $content = null; 
+    
+      // RETURN : gpvar should not displayed
+    if( ! $this->ffPromptsGpvar )
+    {
+      return $content;
+    }
+      // RETURN : gpvar should not displayed
+      
       // Get the Powermail Paramater
-    $arrParamPowermail = t3lib_div::_GP( 'tx_powermail_pi1' );
+    $gpvar = t3lib_div::_GP( 'tx_powermail_pi1' );
 
       // RETURN: no parameter
-    if( empty( $arrParamPowermail ) )
+    if( empty( $gpvar ) )
     {
-      if( $this->b_drs_update )
+      if( $this->b_drs_gpvar )
       {
-        $prompt = 'No powermail parameter. No update of the SOAP user data.';
-        t3lib_div::devlog(' [INFO/UPDATE] '. $prompt, $this->extKey, 0 );
+        $prompt = 'There isn\'t any powermail parameter.!';
+        t3lib_div::devlog(' [INFO/GPVAR] '. $prompt, $this->extKey, 0 );
       }
-      $content = $content . '
-        <div style="border:.4em solid  darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
+      $content = '
+        <div style="border:.4em solid darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
           ' . $prompt . '
         </div>';
       return $content;
     }
       // RETURN: no parameter
+    
+    $prompt = '<pre>' . var_export( $gpvar, true ) . '</pre>';
 
-    switch( true )
-    {
-      case( $this->pmConfirm == false ):
-          // CASE: without a powermail confirmation page
-          // Follow the workflow: update the SOAP user data
-          // DRS
-        if( $this->b_drs_update )
-        {
-          $prompt = 'Powermail parameter are given: SOAP user data will updated.';
-          t3lib_div::devlog(' [INFO/UPDATE] '. $prompt, $this->extKey, 0 );
-          $prompt = 'The update is unwanted, if the Powermail confirmation page is enabled!';
-          t3lib_div::devlog(' [INFO/UPDATE] '. $prompt, $this->extKey, 2 );
-        }
-        break;
-          // DRS
-          // CASE: no confirmation page
-      case( $this->pmConfirm == true ):
-      default:
-          // CASE: with a powermail confirmation page
-          // RETURN: Current Powermail form isn't the one after confirmation
-        if( $arrParamPowermail['sendNow'] != 1 )
-        {
-            // DRS
-          if( $this->b_drs_update )
-          {
-            $prompt = 'Powermail parameter sendNow isn\'t 1: No update of the SOAP user data.';
-            t3lib_div::devlog(' [INFO/UPDATE] '. $prompt, $this->extKey, 0 );
-            $prompt = 'If you have expected another workflow, please change the value of powermail.confirm
-                    in the DAT user flexform.';
-            t3lib_div::devlog(' [INFO/UPDATE] '. $prompt, $this->extKey, 2 );
-          }
-          $prompt = 'Powermail parameter sendNow isn\'t 1: No update of the SOAP user data.';
-          $content = $content . '
-            <div style="border:.4em solid  darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
-              ' . $prompt . '
-            </div>';
-          $prompt = 'If you have expected another workflow, please change the value of powermail.confirm
-                    in the DAT user flexform. Or take a look into the DRS - Development Reporting System.';
-          $content = $content . '
-            <div style="border:.4em solid orange;margin:0 0 1em 0;padding:1em;text-align:center;">
-              ' . $prompt . '
-            </div>';
-          return $content;
-            // DRS
-        }
-          // RETURN: Current Powermail form isn't the one after confirmation
-          // Follow the workflow: update the SOAP user data
-          // DRS
-        if( $this->b_drs_update )
-        {
-          $prompt = 'Powermail parameter sendNow is 1: SOAP user data will updated.';
-          t3lib_div::devlog(' [INFO/UPDATE] '. $prompt, $this->extKey, 0 );
-        }
-        $content = $content . '
-          <div style="border:.4em solid green;margin:0 0 1em 0;padding:1em;text-align:center;">
-            ' . $prompt . '
-          </div>';
-        break;
-          // DRS
-          // CASE: with a powermail confirmation page
-    }
-
-
-      // DRS
-    if( $this->b_drs_update )
-    {
-      $prompt = 'If you have expected another workflow, please change the value of powermail.confirm
-                in the DAT user flexform.';
-      t3lib_div::devlog(' [INFO/UPDATE] '. $prompt, $this->extKey, 2 );
-    }
-
-    $prompt = 'If you have expected another workflow, please change the value of powermail.confirm
-              in the DAT user flexform. Or take a look into the DRS - Development Reporting System.';
-    $content = $content . '
-      <div style="border:.4em solid orange;margin:0 0 1em 0;padding:1em;text-align:center;">
+    $content = '
+      <div style="border:.4em solid darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
         ' . $prompt . '
-      </div>';
-    $content = $content . '
-      <div style="border:.4em solid red;margin:0 0 1em 0;padding:1em;text-align:center;">
-        Update data on the SOAP server isn\'t coded!
       </div>';
     return $content;
       // DRS
