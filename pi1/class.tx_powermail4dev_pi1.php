@@ -880,7 +880,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     {
       if( $this->b_drs_gpvar )
       {
-        $prompt = 'There isn\'t any powermail parameter.!';
+        $prompt = 'There isn\'t any powermail parameter!';
         t3lib_div::devlog(' [INFO/GPVAR] '. $prompt, $this->extKey, 0 );
       }
       $content = '
