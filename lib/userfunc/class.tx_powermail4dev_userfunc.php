@@ -288,6 +288,7 @@ class tx_powermail4dev_userfunc
     
     if( ! t3lib_extMgm::isLoaded( $_EXTKEY ) )
     {
+die( $_EXTKEY );
       $this->intVersion = 0;
       $this->strVersion = 0;
       $arrReturn['int'] = $this->intVersion;
