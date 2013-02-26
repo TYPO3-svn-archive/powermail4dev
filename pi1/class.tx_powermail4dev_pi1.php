@@ -225,6 +225,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     $content = $content . $prompt;
       // Prompt : content for current IP only
     
+    $content = $content . $this->promptVersion( );
+    
     $content = $content . $this->promptGpvar( );
     
     $content = $content . $this->promptSession( );
@@ -739,15 +741,13 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 
       // wrap with dark blue border
     $content = '
-      <div style="border:.4em solid darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
+      <div style="border:.4em solid darkGreen;margin:0 0 1em 0;padding:1em;text-align:center;">
         ' . $prompt . '
       </div>';
       // wrap with dark blue border
 
     return $content;
   }
-
-
 
 /**
  * promptSession( ):
@@ -760,21 +760,63 @@ class tx_powermail4dev_pi1 extends tslib_pibase
   private function promptSession(  )
   {
     $content = null; 
+
+    switch( true )
+    {
+      case( $this->pmIntVersion < 1000000 ):
+        $prompt = 'ERROR: unexpected result<br />
+          powermail version is below 1.0.0: ' . $this->pmIntVersion . '<br />
+          Method: ' . __METHOD__ . ' (line ' . __LINE__ . ')<br />
+          TYPO3 extension: ' . $this->extKey;
+        die( $prompt );
+        break;
+      case( $this->pmIntVersion < 2000000 ):
+        $content = $this->promptSessionVers1( );
+        break;
+      case( $this->pmIntVersion < 3000000 ):
+        $content = $this->promptSessionVers2( );
+        break;
+      case( $this->pmIntVersion >= 3000000 ):
+      default:
+        $prompt = 'ERROR: unexpected result<br />
+          powermail version is 3.x: ' . $this->pmIntVersion . '<br />
+          Method: ' . __METHOD__ . ' (line ' . __LINE__ . ')<br />
+          TYPO3 extension: ' . $this->extKey;
+        die( $prompt );
+        break;
+    }
+
+    return $content;
+  }
+
+/**
+ * promptSessionVers1( ):
+ *
+ * @return    string        The content that should be displayed on the website
+ * @access  private
+ * @version 0.0.1
+ * @since   0.0.1
+ */
+  private function promptSessionVers1(  )
+  {
+    $content = null; 
     
-      // RETURN : gpvar should not displayed
+      // RETURN : session data should not displayed
     if( ! $this->ffPromptsSession )
     {
       return $content;
     }
-      // RETURN : gpvar should not displayed
+      // RETURN : session data should not displayed
       
       // Get the Powermail session data
-    $sessionData = $GLOBALS['TSFE']->fe_user->getKey( 'ses', 'powermail_' . $this->pmUid );
+    $uid  = $this->pmUid;
+    $key  = 'powermail_';
+    $sessionData = $GLOBALS['TSFE']->fe_user->getKey( 'ses', $key . $uid );
 
       // RETURN: no session data
     if( empty( $sessionData ) )
     {
-        $prompt = 'There isn\'t any powermail session data!';
+      $prompt = 'There isn\'t any powermail session data!';
       if( $this->b_drs_session )
       {
         t3lib_div::devlog(' [INFO/GPVAR] '. $prompt, $this->extKey, 0 );
@@ -799,7 +841,98 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 
       // wrap with dark blue border
     $content = '
-      <div style="border:.4em solid darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
+      <div style="border:.4em solid darkGreen;margin:0 0 1em 0;padding:1em;text-align:center;">
+        ' . $prompt . '
+      </div>';
+      // wrap with dark blue border
+
+    return $content;
+  }
+
+/**
+ * promptSessionVers2( ):
+ *
+ * @return    string        The content that should be displayed on the website
+ * @access  private
+ * @version 0.0.1
+ * @since   0.0.1
+ */
+  private function promptSessionVers2(  )
+  {
+    $content = null; 
+    
+      // RETURN : session data should not displayed
+    if( ! $this->ffPromptsSession )
+    {
+      return $content;
+    }
+      // RETURN : session data should not displayed
+      
+      // Get the Powermail session data
+    $gpvar = t3lib_div::_GP( 'tx_powermail_pi1' );
+    $uid  = $gpvar['form'];
+    $key  = 'powermailFormstart';
+    $sessionData = $GLOBALS['TSFE']->fe_user->getKey( 'ses', $key . $uid );
+
+      // RETURN: no session data
+    if( empty( $sessionData ) )
+    {
+      $prompt = 'There isn\'t any powermail session data!';
+      if( $this->b_drs_session )
+      {
+        t3lib_div::devlog(' [INFO/GPVAR] '. $prompt, $this->extKey, 0 );
+      }
+      $content = '
+        <div style="border:.4em solid darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
+          ' . $prompt . '
+        </div>';
+      return $content;
+    }
+      // RETURN: no parameter
+    
+      // prompt with session data
+    $prompt = '
+      <h2>
+        Powermail session data
+      </h2>
+      <pre style="text-align:left;">
+        ' . var_export( $sessionData, true ) . '
+      </pre>';
+      // prompt with session data
+
+      // wrap with dark blue border
+    $content = '
+      <div style="border:.4em solid darkGreen;margin:0 0 1em 0;padding:1em;text-align:center;">
+        ' . $prompt . '
+      </div>';
+      // wrap with dark blue border
+
+    return $content;
+  }
+
+/**
+ * promptVersion( ):
+ *
+ * @return    string        The content that should be displayed on the website
+ * @access  private
+ * @version 0.0.1
+ * @since   0.0.1
+ */
+  private function promptVersion(  )
+  {
+    $content = null; 
+    
+      // prompt with session data
+    $prompt = '
+      <h2>
+        Powermail Version
+      </h2>
+      You are using Poewermail ' . $this->pmStrVersion . ' (internal ' . $this->pmIntVersion .')';
+      // prompt with session data
+
+      // wrap with dark blue border
+    $content = '
+      <div style="border:.4em solid darkGreen;margin:0 0 1em 0;padding:1em;text-align:center;">
         ' . $prompt . '
       </div>';
       // wrap with dark blue border

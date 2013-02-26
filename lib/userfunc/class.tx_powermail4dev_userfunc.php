@@ -466,8 +466,15 @@ class tx_powermail4dev_userfunc
         $where_clause = $where_clause . " AND CType = 'powermail_pi1'";
         break;
       case( $this->intVersion < 3000000 ):
-      default:
         $where_clause = $where_clause . " AND list_type = 'powermail_pi1'";
+        break;
+      case( $this->intVersion >= 3000000 ):
+      default:
+        $prompt = 'ERROR: unexpected result<br />
+          powermail version is 3.x: ' . $this->intVersion . '<br />
+          Method: ' . __METHOD__ . ' (line ' . __LINE__ . ')<br />
+          TYPO3 extension: powermail4dev';
+        die( $prompt );
         break;
     }
     $groupBy        = '';
