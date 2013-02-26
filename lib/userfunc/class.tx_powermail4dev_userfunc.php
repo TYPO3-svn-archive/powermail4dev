@@ -404,7 +404,7 @@ class tx_powermail4dev_userfunc
  */
   public function ffSdefInfo( $arr_pluginConf )
   {
-    $dummy = $arr_pluginConf;
+    unset( $arr_pluginConf );;
     return $GLOBALS['LANG']->sL('LLL:EXT:powermail4dev/pi1/locallang_flexform.xml:sDEF.info') . '</h1>';
   }
   
@@ -465,7 +465,7 @@ class tx_powermail4dev_userfunc
     {
       case( $this->intVersion < 1000000 ):
         $prompt = 'ERROR: unexpected result<br />
-          powermail version is below 1.0.0<br />
+          powermail version is below 1.0.0: ' . $this->intVersion . '<br />
           Method: ' . __METHOD__ . ' (line ' . __LINE__ . ')<br />
           TYPO3 extension: powermail4dev';
         die( $prompt );
