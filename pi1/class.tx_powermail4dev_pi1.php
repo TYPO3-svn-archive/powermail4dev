@@ -711,7 +711,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // RETURN : gpvar should not displayed
       
       // Get the Powermail Paramater
-    $gpvar = t3lib_div::_GP( 'tx_powermail_pi1' );
+    $gpvar = t3lib_div::_GET( 'tx_powermail_pi1' );
 
       // RETURN: no parameter
     if( empty( $gpvar ) )
@@ -735,7 +735,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
         Powermail GET-/POST-parameter
       </h2>
       <pre style="text-align:left;">
-        ' . var_export( $gpvar, true ) . '
+' . var_export( $gpvar, true ) . '
       </pre>';
       // prompt with GET-/POST-parameter
 
@@ -835,7 +835,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
         Powermail session data
       </h2>
       <pre style="text-align:left;">
-        ' . var_export( $sessionData, true ) . '
+' . var_export( $sessionData, true ) . '
       </pre>';
       // prompt with session data
 
@@ -896,7 +896,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
         Powermail session data
       </h2>
       <pre style="text-align:left;">
-        ' . var_export( $sessionData, true ) . '
+' . var_export( $sessionData, true ) . '
       </pre>';
       // prompt with session data
 
@@ -927,7 +927,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       <h2>
         Powermail Version
       </h2>
-      You are using Poewermail ' . $this->pmStrVersion . ' (internal ' . $this->pmIntVersion .')';
+      You are using Powermail ' . $this->pmStrVersion . ' (internal ' . $this->pmIntVersion .')';
       // prompt with session data
 
       // wrap with dark blue border
