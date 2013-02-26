@@ -288,7 +288,6 @@ class tx_powermail4dev_userfunc
     
     if( ! t3lib_extMgm::isLoaded( $_EXTKEY ) )
     {
-die( $_EXTKEY );
       $this->intVersion = 0;
       $this->strVersion = 0;
       $arrReturn['int'] = $this->intVersion;
@@ -297,6 +296,7 @@ die( $_EXTKEY );
     }
 
     require_once( t3lib_extMgm::extPath( $_EXTKEY ) . 'ext_emconf.php');
+var_dump( $_EXTKEY, $EM_CONF );
     $this->strVersion = $EM_CONF[$_EXTKEY]['version'];
 
       // Set version as integer (sample: 4.7.7 -> 4007007)
