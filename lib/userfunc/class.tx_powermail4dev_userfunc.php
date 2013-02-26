@@ -271,11 +271,11 @@ class tx_powermail4dev_userfunc
   *
   * @param    string        $_EXTKEY  : extension key
   * @return    integer      $version  : version of the given extension
-  * @access public
+  * @access private
   * @version 0.0.1
   * @since 0.0.1
   */
-  public function extMgmVersion( $_EXTKEY )
+  private function extMgmVersion( $_EXTKEY )
   {
     $arrReturn = null;
     
@@ -463,6 +463,13 @@ class tx_powermail4dev_userfunc
     $where_clause   = "pid = " . $pid . " AND hidden = 0 AND deleted = 0";
     switch( true )
     {
+      case( $this->intVersion < 1000000 ):
+        $prompt = 'ERROR: unexpected result<br />
+          powermail version is below 1.0.0<br />
+          Method: ' . __METHOD__ . ' (line ' . __LINE__ . ')<br />
+          TYPO3 extension: powermail4dev';
+        die( $prompt );
+        break;
       case( $this->intVersion < 2000000 ):
         $where_clause = $where_clause . " AND CType = 'powermail_pi1'";
         break;
@@ -524,6 +531,13 @@ class tx_powermail4dev_userfunc
     $this->pmTitle  = $pmRecord['header'];  
     switch( true )
     {
+      case( $this->intVersion < 1000000 ):
+        $prompt = 'ERROR: unexpected result<br />
+          powermail version is below 1.0.0<br />
+          Method: ' . __METHOD__ . ' (line ' . __LINE__ . ')<br />
+          TYPO3 extension: powermail4dev';
+        die( $prompt );
+        break;
       case( $this->intVersion < 2000000 ):
         $this->pmFfConfirm  = $pmRecord['tx_powermail_confirm'];
         break;
