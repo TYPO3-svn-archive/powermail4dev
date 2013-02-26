@@ -200,8 +200,13 @@ class tx_powermail4dev_pi1 extends tslib_pibase
         ' . $prompt . '
       </div>' . PHP_EOL .
       $content;
+    $content = '
+      <div style="border:.4em solid grey;margin:1em 0;padding:1em;">
+        ' . $content . '
+      </div>' . PHP_EOL .
+      $content;
     
-    $content = $content . '<pre>' . var_export( $this->pmUid2, true ) . '</pre>';
+//    $content = $content . '<pre>' . var_export( $this->pmUid2, true ) . '</pre>';
     return $this->pi_wrapInBaseClass( $content );
       // Display content for the current IP
   }
