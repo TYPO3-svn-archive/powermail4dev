@@ -271,11 +271,11 @@ class tx_powermail4dev_userfunc
   *
   * @param    string        $_EXTKEY  : extension key
   * @return    integer      $version  : version of the given extension
-  * @access private
+  * @access public
   * @version 0.0.1
   * @since 0.0.1
   */
-  private function extMgmVersion( $_EXTKEY )
+  public function extMgmVersion( $_EXTKEY )
   {
     $arrReturn = null;
     
@@ -386,7 +386,7 @@ class tx_powermail4dev_userfunc
     $prompt = 'This plugin handles the powermail form with the title "' . $arrResult['title']. '" 
       and the uid #' . $arrResult['uid']. '.';
     $prompt = $prompt . '<br />
-      Powermail mode confirm is ' . $pmFfConfirm . '.';
+      The powermail plugin has the confirm mode ' . $pmFfConfirm . '.';
     $prompt = $prompt . '<br />
       Powermail version: ' . $arrVersion['str'] . ' (internal ' . $arrVersion['int'] . ')';
     $prompt = $prompt . '<br /><br />

@@ -54,7 +54,7 @@ require_once( t3lib_extMgm::extPath( 'powermail4dev' ) . 'lib/userfunc/class.tx_
  *
  *              SECTION: Flexform
  *  316:     private function initFlexform( )
- *  335:     private function initFlexformSheetPowermail( )
+ *  335:     private function initFlexformSheetSdef( )
  *
  *              SECTION: SOAP
  *  407:     private function soapUpdate( $content )
@@ -120,25 +120,39 @@ class tx_powermail4dev_pi1 extends tslib_pibase
   private $ffConfigIp;
 
  /**
-  * Flexform value powermail.uid
-  *
-  * @var integer
-  */
-  private $ffPowermailUid;
-
- /**
   * Flexform value powermail.confirm
   *
   * @var boolean
   */
-  private $ffPowermailConfirm;
+  private $pmConfirm;
 
  /**
-  * Current feuser record from table fe_users
+  * Title of the powermail plugin
   *
-  * @var array
+  * @var string
   */
-  private $feuserRecord;
+  private $pmTitle;
+
+ /**
+  * tt_content uid of powermail record / flexform
+  *
+  * @var integer
+  */
+  private $pmUid;
+
+ /**
+  * The version of the current powermail extension
+  *
+  * @var integer
+  */
+  public $pmIntVersion = null;
+  
+ /**
+  * The version of the current powermail extension
+  *
+  * @var string
+  */
+  public $pmStrVersion = null;
 
 
 
@@ -166,32 +180,18 @@ class tx_powermail4dev_pi1 extends tslib_pibase
   {
       // Globalise TypoScript configuration
     $this->conf = $conf;
-      // Init localisation
-    $this->pi_loadLL();
-      // Get the values from the localconf.php file
-    $this->arr_extConf = unserialize( $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey] );
-
-    $this->userfunc = t3lib_div::makeInstance('tx_powermail4dev_userfunc'); // Create new instance for calculation functions
-    $this->userfunc->pObj = $this;
-            
-      // Init DRS - Development Reporting System
-    $this->initDrs( );
-      // Init flexform values
-    $this->initFlexform( );
-      // Init access by IP
-    $this->initAccessByIp( );
-
-//      // Update SOAP user data
-//    $content = $this->soapUpdate( $content );
-//      // Set session data for Powermail
-//    $content = $this->session( $content );
-
-      // Don't display content, if current IP doesn't match list of allowed IPs
-    if( ! $this->bool_accessByIP )
+    
+    $prompt = $this->init( );
+    if( $prompt )
     {
-      return;
+      $content = '
+        <div style="border:.4em solid darkRed;margin:0 0 1em 0;padding:1em;text-align:center;">
+          ' . $prompt . '
+        </div>' . PHP_EOL .
+      $content;
+      return $this->pi_wrapInBaseClass( $content );
     }
-      // Don't display content, if current IP doesn't match list of allowed IPs
+
 
       // Display content for the current IP
     $prompt = 'Debugging report isn\'t visible for other clients. It\'s visible for allowed IPs only.';
@@ -201,7 +201,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       </div>' . PHP_EOL .
       $content;
     
-    $content = $content . '<pre>' . var_export( $this->ffPowermailUid2, true ) . '</pre>';
+    $content = $content . '<pre>' . var_export( $this->pmUid2, true ) . '</pre>';
     return $this->pi_wrapInBaseClass( $content );
       // Display content for the current IP
   }
@@ -216,11 +216,60 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 
   /***********************************************
    *
-   * DRS - Development Reporting System
+   * Init
    *
    **********************************************/
 
 
+
+/**
+ * init( ): 
+ *
+ * @return    string        $prompt : A prompt in case of an error
+ * @access: private
+ * @version 0.0.1
+ * @since   0.0.1
+ */
+  private function init( )
+  {
+      // Init localisation
+    $this->pi_loadLL();
+
+      // Get the values from the localconf.php file
+    $this->arr_extConf = unserialize( $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey] );
+
+      // New instance for user functions
+    $this->userfunc = t3lib_div::makeInstance('tx_powermail4dev_userfunc');
+    $this->userfunc->pObj = $this;
+            
+      // Init DRS - Development Reporting System
+    $this->initDrs( );
+      // Init flexform values
+    $this->initFlexform( );
+      // Init access by IP
+    $this->initAccessByIp( );
+
+      // Don't display content, if current IP doesn't match list of allowed IPs
+    if( ! $this->bool_accessByIP )
+    {
+      return;
+    }
+      // Don't display content, if current IP doesn't match list of allowed IPs
+    
+    $arrResult = $this->initPmVersion( );
+
+    if( empty( $arrResult['int'] ) )
+    {
+      $prompt = 'Powermail doesn\'t seem to be installed!<br />
+        Prompt by TYPO3 ' . $this->extKey;
+      return $prompt;      
+    }
+    
+    $this->pmIntVersion = $arrResult['int'];
+    $this->pmStrVersion = $arrResult['str'];
+    
+    return;
+  }
 
   /**
  * initAccessByIp( ):  Set the global $bool_accessByIP.
@@ -364,7 +413,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     $this->initFlexformSheetConfig( );
 
       // Sheet powermail
-    $this->initFlexformSheetPowermail( );
+    $this->initFlexformSheetSdef( );
   }
 
 
@@ -389,7 +438,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // Field csvAllowedIp
 
     $field = 'csvAllowedIp';
-      // Set the global ffPowermailUid
+      // Set the global pmUid
     $this->ffConfigIp = $this->pi_getFFvalue($arr_piFlexform, $field, $sheet, 'lDEF', 'vDEF');
 
       // DRS
@@ -409,26 +458,31 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 
 
 /**
- * initFlexformSheetPowermail( ):
+ * initFlexformSheetSdef( ):
  *
  * version 0.0.1
  * since  0.0.1
  *
  * @return    void
  */
-  private function initFlexformSheetPowermail( )
+  private function initFlexformSheetSdef( )
   {
       ////////////////////////////////////////////////
       //
       // Field uid2
 
-      // Set the global ffPowermailUid
-    $this->ffPowermailUid2 = $this->userfunc->sqlPowermail( $this->cObj->data );
+      // Set the global pmUid
+    $arrResult = $this->userfunc->sqlPowermail( $this->cObj->data );
+
+    $this->pmUid     = $arrResult['uid'];
+    $this->pmTitle   = $arrResult['title'];
+    $this->pmConfirm = $arrResult['ffConfirm'];
+
 
       // DRS
     switch( true )
     {
-      case( empty( $this->ffPowermailUid2 ) ):
+      case( empty( $this->pmUid2 ) ):
         if( $this->b_drs_error )
         {
           $prompt = 'powermail.uid2 is empty. You will get trouble with prefilled data in the powermail form.';
@@ -438,7 +492,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       default:
         if( $this->b_drs_flexform )
         {
-          $prompt = var_export( $this->ffPowermailUid2, true );
+          $prompt = var_export( $this->pmUid2, true );
           $prompt = 'powermail.uid2 is ' . $prompt . '. Take care for a proper uid2. With
             an unproper uid2 you will get trouble with prefilled data in the powermail form.';
           t3lib_div::devlog(' [OK/FLEXFORM] '. $prompt, $this->extKey, -1 );
@@ -449,6 +503,20 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 
       // Field uid2
   }
+
+/**
+ * initPmVersion( ): 
+ *
+ * @return    string        $prompt : A prompt in case of an error
+ * @access private
+ * @version 0.0.1
+ * @since   0.0.1
+ */
+  private function initPmVersion( )
+  {
+    return $this->extMgmVersion( 'powermail' );
+  }
+
 
 
 
@@ -703,7 +771,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 
       // Remove Powermail session data
       // Powermail plugin uid
-    $uid = $this->ffPowermailUid; 
+    $uid = $this->pmUid; 
       // DRS
     if( $this->b_drs_session )
     {
@@ -775,7 +843,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 
     switch( true )
     {
-      case( $this->ffPowermailConfirm == false ):
+      case( $this->pmConfirm == false ):
           // CASE: without a powermail confirmation page
           // Follow the workflow: update the SOAP user data
           // DRS
@@ -789,7 +857,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
         break;
           // DRS
           // CASE: no confirmation page
-      case( $this->ffPowermailConfirm == true ):
+      case( $this->pmConfirm == true ):
       default:
           // CASE: with a powermail confirmation page
           // RETURN: Current Powermail form isn't the one after confirmation
