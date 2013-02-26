@@ -732,11 +732,9 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       <h2>
         Powermail GET-/POST-parameter
       </h2>
-      <p style="text-align:left;">
-        <pre>
-          ' . var_export( $gpvar, true ) . '
-        </pre>
-      </p>';
+      <pre style="text-align:left;">
+        ' . var_export( $gpvar, true ) . '
+      </pre>';
       // prompt with GET-/POST-parameter
 
       // wrap with dark blue border
@@ -794,11 +792,9 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       <h2>
         Powermail session data
       </h2>
-      <p style="text-align:left;">
-        <pre>
-          ' . var_export( $sessionData, true ) . '
-        </pre>
-      </p>';
+      <pre style="text-align:left;">
+        ' . var_export( $sessionData, true ) . '
+      </pre>';
       // prompt with session data
 
       // wrap with dark blue border
