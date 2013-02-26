@@ -8,9 +8,9 @@
     <languageKey index="default" type="array">
       <label index="config">Initiation</label>
       <label index="config.csvAllowedIp">List of allowed IP. Please add your current IP, if you like to see a result in the frontend.</label>
-      <label index="powermail">Powermail</label>
-      <label index="powermail.confirm">Has the Powermail form a confirmation page enabled? This configuration MUST correspondend with the Powermail configuration!</label>
-      <label index="powermail.uid">Uid of the Powermail form on the current page.</label>
+      <label index="controlling">Controlling</label>
+      <label index="controlling.confirm">Has the Powermail form a confirmation page enabled? This configuration MUST correspondend with the Powermail configuration!</label>
+      <label index="controlling.uid">Uid of the Powermail form on the current page.</label>
       <label index="sDEF">Information</label>
       <label index="sDEF.info"><![CDATA[
         <div>
@@ -63,7 +63,7 @@
           </h2>
           <ul style="list-style:disc;margin-left:2em;">
             <li>
-              <a style="text-decoration:underline;" href="../typo3conf/ext/powermail4dev/doc/manual.pdf" target="_blank">DAT users Manual</a>
+              <a style="text-decoration:underline;" href="../typo3conf/ext/controlling4dev/doc/manual.pdf" target="_blank">DAT users Manual</a>
             </li>
           </ul>
         </div>
@@ -72,9 +72,9 @@
     <languageKey index="de" type="array">
       <label index="config">Aktivierung</label>
       <label index="config.csvAllowedIp">Liste erlaubter IP. Bitte setze Deine aktuelle IP-Adresse ein, wenn Du ein Ergebnis im Frontend sehen willst.</label>
-      <label index="powermail">Powermail</label>
-      <label index="powermail.confirm">Ist im Powermail Formular eine Bestaetigungsseite aktiviert? Diese Einstellung MUSS die gleiche sein wie im Powermail Formular.</label>
-      <label index="powermail.uid">Uid des Powermail-Formulars auf dieser Seite.</label>
+      <label index="controlling">Steuerung</label>
+      <label index="controlling.confirm">Ist im Powermail Formular eine Bestaetigungsseite aktiviert? Diese Einstellung MUSS die gleiche sein wie im Powermail Formular.</label>
+      <label index="controlling.uid">Uid des Powermail-Formulars auf dieser Seite.</label>
       <label index="sDEF">Information</label>
       <label index="sDEF.info"><![CDATA[
         <div>
