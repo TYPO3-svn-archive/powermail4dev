@@ -295,7 +295,7 @@ class tx_powermail4dev_userfunc
       return $arrReturn;
     }
 
-    require_once( t3lib_extMgm::extPath( $_EXTKEY ) . 'ext_emconf.php');
+    require( t3lib_extMgm::extPath( $_EXTKEY ) . 'ext_emconf.php');
 var_dump( $_EXTKEY, $EM_CONF );
     $this->strVersion = $EM_CONF[$_EXTKEY]['version'];
 
