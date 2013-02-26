@@ -892,9 +892,9 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // RETURN: no parameter
     if( empty( $gpvar ) )
     {
+      $prompt = 'There isn\'t any powermail GET-/POST-parameter!';
       if( $this->b_drs_gpvar )
       {
-        $prompt = 'There isn\'t any powermail GET-/POST-parameter!';
         t3lib_div::devlog(' [INFO/GPVAR] '. $prompt, $this->extKey, 0 );
       }
       $content = '
@@ -952,9 +952,9 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // RETURN: no session data
     if( empty( $sessionData ) )
     {
+        $prompt = 'There isn\'t any powermail session data!';
       if( $this->b_drs_session )
       {
-        $prompt = 'There isn\'t any powermail session data!';
         t3lib_div::devlog(' [INFO/GPVAR] '. $prompt, $this->extKey, 0 );
       }
       $content = '
