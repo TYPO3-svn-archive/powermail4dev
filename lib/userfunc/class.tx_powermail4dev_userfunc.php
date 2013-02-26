@@ -384,12 +384,18 @@ class tx_powermail4dev_userfunc
     
 
     $prompt = 'This plugin handles the powermail form "' . $arrResult['title']. '" 
-      (uid ' . $arrResult['uid']. '). Powermail mode confirm is ' . $pmFfConfirm . '.';
+      (uid ' . $arrResult['uid']. ').';
+    $prompt = $prompt . '<br />
+      Powermail mode confirm is ' . $pmFfConfirm . '.';
     $prompt = $prompt . '<br />
       Powermail version: ' . $arrVersion['str'] . ' (internal ' . $arrVersion['int'] . ')';
-    $prompt = $prompt . '<br />
-      BE AWARE: If you have more than one powermail form within the same page, you can get 
-      unproper results. Even if the all other powermail forms are hidden or if they have a deleted status.';
+    $prompt = $prompt . '<br /><br />
+      <span style="color:red;font-weight:bold;">
+        BE AWARE:
+      </span>
+      If you have more than one powermail form within the same page, you can get 
+      unproper results. Even if the all other powermail forms are hidden or if they have a deleted status.
+      ';
     
     return $prompt;
   }
