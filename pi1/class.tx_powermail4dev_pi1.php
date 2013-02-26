@@ -683,192 +683,14 @@ class tx_powermail4dev_pi1 extends tslib_pibase
 
 
 
-
-
-
-
-
-
-  /***********************************************
-   *
-   * Session
-   *
-   **********************************************/
-
-
-
-/**
- * session( ): Main method of your PlugIn
- *
- * @param    string        $content: The content of the PlugIn
- * @param    array        $conf: The PlugIn Configuration
- * @return    string        The content that should be displayed on the website
- * @version 0.0.1
- * @since   0.0.1
- */
-  private function session( $content )
-  {
-      // RETURN: Error with SQL query
-    if( ! $this->feuserSqlSelect( ) )
-    {
-      if( $this->b_drs_error )
-      {
-        $prompt = 'Abort: Error with SQL query.';
-        t3lib_div::devlog(' [ERROR/SESSION] '. $prompt, $this->extKey, 3 );
-      }
-      $content = $content . '
-        <div style="border:.4em solid red;margin:0 0 1em 0;padding:1em;text-align:center;">
-          ERROR with SQL query. Please take a look into the DRS - Development Reporting System.
-        </div>';
-      return $content;
-    }
-      // RETURN: Error with SQL query
-    
-      // Reset Powermail session data
-    $this->sessionPowermailReset( );
-    
-      // Set DAT user session data
-    $this->sessionDatusersSet( );
-    
-      // DRS
-    if( $this->b_drs_session )
-    {
-      $prompt = 'Session data of datusers: ' . print_r( $GLOBALS['TSFE']->fe_user->getKey( 'ses', 'datusers' ), true );
-      t3lib_div::devlog(' [INFO/SESSION] '. $prompt, $this->extKey, 0 );
-    }
-      // DRS
-      
-      // RETURN: Session data are empty
-    $sessionData = $GLOBALS['TSFE']->fe_user->getKey( 'ses', 'datusers' );
-    if( empty ( $sessionData ) )
-    {
-      if( $this->b_drs_session )
-      {
-        $prompt = 'Session data are empty!';
-        t3lib_div::devlog(' [ERROR/SESSION] '. $prompt, $this->extKey, 3 );
-      }
-      $content = $content . '
-        <div style="border:.4em solid red;margin:0 0 1em 0;padding:1em;text-align:center;">
-          ERROR: Session data datusers are empty!
-        </div>';
-      return $content;
-    }
-      // RETURN: Session data are empty
-    
-      // Session data are set successful
-    $content = $content . '
-      <div style="border:.4em solid green;margin:0 0 1em 0;padding:1em;text-align:center;">
-        Session data datusers are set.
-      </div>';
-    return $content;
-      // Session data are set successful
-  }
-
-
-
-/**
- * sessionDatusersSet( ):
- *
- * @return    void
- * @version 0.0.1
- * @since   0.0.1
- */
-  private function sessionDatusersSet( )
-  { 
-      // Array for session data
-    $newSessionData = array( );
-
-      // Get current session data
-    $currSessionData = $GLOBALS['TSFE']->fe_user->getKey( 'ses', 'datusers' );
-
-      // Add client number to session data
-    $newSessionData['datusers_clientno'] = $currSessionData['datusers_clientno'];
-
-      // Add fe_user record elements to session data
-    foreach( $this->feuserRecord as $key => $value )
-    {
-      switch( $key )
-      {
-        case( 'uc' ):
-          continue 2;
-          break;
-        case( 'username' ):
-          $newSessionData['username'] = $value;
-          break;
-      }
-      $newSessionData[ 'fe_users.' . $key ] = $value;
-    }
-      // Add fe_user record elements to session data
-      
-      // Set session data
-    $GLOBALS['TSFE']->fe_user->setKey( 'ses', 'datusers', $newSessionData );
-    $GLOBALS["TSFE"]->storeSessionData();
-  }
-
-
-
-/**
- * sessionPowermailReset( ):
- *
- * @return    void
- * @version 0.0.1
- * @since   0.0.1
- */
-  private function sessionPowermailReset( )
-  {
-    $arrParamPowermail = t3lib_div::_GP( 'tx_powermail_pi1' );
-
-      // RETURN: there are Powermail parameter
-    if( ! empty( $arrParamPowermail ) )
-    {
-      return;
-    }
-      // RETURN: there are Powermail parameter
-
-      // Remove Powermail session data
-      // Powermail plugin uid
-    $uid = $this->pmUid; 
-      // DRS
-    if( $this->b_drs_session )
-    {
-      $tmpData = $GLOBALS['TSFE']->fe_user->getKey( 'ses', 'powermail_' . $uid );
-      if( ! empty ( $tmpData ) )
-      {
-        $prompt = 'Powermail uid seems to be Ok: ' . $uid;
-        t3lib_div::devlog(' [OK/SESSION] '. $prompt, $this->extKey, -1 );
-      }
-    }
-      // DRS
-      // Remove Powermail session data
-    $GLOBALS['TSFE']->fe_user->setKey( 'ses', 'powermail_' . $uid, array( ) );
-      // DRS
-    if( $this->b_drs_session )
-    {
-      $prompt = 'Session data powermail_' . $uid .' are removed.';
-      t3lib_div::devlog(' [INFO/SESSION] '. $prompt, $this->extKey, 0 );
-    }
-      // DRS
-      // Remove Powermail session data
-  }
-
-
-
-
-
-
-
-
-
   /***********************************************
    *
    * prompts
    *
    **********************************************/
 
-
-
 /**
- * promptVar( ):
+ * promptGpvar( ):
  *
  * @return    string        The content that should be displayed on the website
  * @access  private
@@ -910,9 +732,11 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       <h2>
         Powermail GET-/POST-parameter
       </h2>
-      <pre>
-        ' . var_export( $gpvar, true ) . '
-      </pre>';
+      <p style="text-align:left;">
+        <pre>
+          ' . var_export( $gpvar, true ) . '
+        </pre>
+      </p>';
       // prompt with GET-/POST-parameter
 
       // wrap with dark blue border
@@ -970,9 +794,11 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       <h2>
         Powermail session data
       </h2>
-      <pre>
-        ' . var_export( $sessionData, true ) . '
-      </pre>';
+      <p style="text-align:left;">
+        <pre>
+          ' . var_export( $sessionData, true ) . '
+        </pre>
+      </p>';
       // prompt with session data
 
       // wrap with dark blue border
