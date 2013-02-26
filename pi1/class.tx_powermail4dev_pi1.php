@@ -201,7 +201,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       </div>' . PHP_EOL .
       $content;
     $content = '
-      <div style="border:.4em solid grey;margin:1em 0;padding:1em;">
+      <div style="border:.4em solid grey;margin:1em 0 0;padding:1em;">
         ' . $content . '
       </div>';
     
