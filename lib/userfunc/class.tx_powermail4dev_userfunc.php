@@ -74,14 +74,14 @@ class tx_powermail4dev_userfunc
   *
   * @var integer
   */
-  public $intVersion;
+  public $intVersion = null;
   
  /**
   * The version of the current powermail extension
   *
   * @var string
   */
-  public $strVersion;
+  public $strVersion = null;
   
  /**
   * Uid of the current powermail plugin
