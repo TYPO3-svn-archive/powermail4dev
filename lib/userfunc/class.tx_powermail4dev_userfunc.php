@@ -543,7 +543,8 @@ class tx_powermail4dev_userfunc
       case( $this->intVersion < 3000000 ):
       default:
         $pmFlexform         = t3lib_div::xml2array( $pmRecord['pi_flexform'] );
-        $this->pmFfConfirm  = $pmFlexform['data']['main']['lDEF']['settings.flexform.main.form']['vDEF'];
+        $this->pmUid        = $pmFlexform['data']['main']['lDEF']['settings.flexform.main.form']['vDEF'];
+        $this->pmFfConfirm  = $pmFlexform['data']['main']['lDEF']['settings.flexform.main.confirmation']['vDEF'];
         break;
     }
 
