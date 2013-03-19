@@ -821,8 +821,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       
       // Get the Powermail session data
     $uid  = $this->pmUid;
-    $key  = 'powermail_';
-    $sessionData = $GLOBALS['TSFE']->fe_user->getKey( 'ses', $key . $uid );
+    $key  = 'powermail_' . $uid;
+    $sessionData = $GLOBALS['TSFE']->fe_user->getKey( 'ses', $key );
 
       // RETURN: no session data
     if( empty( $sessionData ) )
@@ -880,10 +880,13 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       // RETURN : session data should not displayed
       
       // Get the Powermail session data
-    $post = t3lib_div::_POST( 'tx_powermail_pi1' );
-    $uid  = $post['form'];
-    $key  = 'powermailFormstart';
-    $sessionData = $GLOBALS['TSFE']->fe_user->getKey( 'ses', $key . $uid );
+//    $post = t3lib_div::_POST( 'tx_powermail_pi1' );
+//    $uid  = $post['form'];
+//    $key  = 'powermailFormstart';
+      // Get the Powermail session data
+    $uid  = $this->pmUid;
+    $key  = 'powermail_' . $uid;
+    $sessionData = $GLOBALS['TSFE']->fe_user->getKey( 'ses', $key );
 
       // RETURN: no session data
     if( empty( $sessionData ) )

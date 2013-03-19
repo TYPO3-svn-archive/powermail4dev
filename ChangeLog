@@ -1,8 +1,15 @@
+0.0.3
+  13-03-19
+  Bugfix
+  * i0002: Powermail 2x session key was unproper
+  
 0.0.2
   13-03-06
+  Improvement
   * #i0001: plugin is set from USER to USER_INT
 
 0.0.1
   13-02-25
+  Initial Release
   * #45832: Initial release
             Dirk Wildt  http://wildt.at.die-netzmacher.de
