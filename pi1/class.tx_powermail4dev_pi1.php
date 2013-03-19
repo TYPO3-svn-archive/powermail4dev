@@ -845,6 +845,9 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       <h2>
         Powermail session data
       </h2>
+      <p>
+        session key: ' . $key . '
+      </p>      
       <pre style="text-align:left;">
 ' . var_export( $sessionData, true ) . '
       </pre>';
@@ -909,6 +912,9 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       <h2>
         Powermail session data
       </h2>
+      <p>
+        session key: ' . $key . '
+      </p>      
       <pre style="text-align:left;">
 ' . var_export( $sessionData, true ) . '
       </pre>';
