@@ -782,10 +782,10 @@ class tx_powermail4dev_pi1 extends tslib_pibase
         die( $prompt );
         break;
       case( $this->pmIntVersion < 2000000 ):
-        $content = $this->promptSessionVers1( );
+        $content = $this->promptSession1x( );
         break;
       case( $this->pmIntVersion < 3000000 ):
-        $content = $this->promptSessionVers2( );
+        $content = $this->promptSession2x( );
         break;
       case( $this->pmIntVersion >= 3000000 ):
       default:
@@ -801,14 +801,14 @@ class tx_powermail4dev_pi1 extends tslib_pibase
   }
 
 /**
- * promptSessionVers1( ):
+ * promptSession1x( ):
  *
  * @return    string        The content that should be displayed on the website
  * @access  private
  * @version 0.0.1
  * @since   0.0.1
  */
-  private function promptSessionVers1(  )
+  private function promptSession1x(  )
   {
     $content = null; 
     
@@ -834,7 +834,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       }
       $content = '
         <div style="border:.4em solid darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
-          ' . $prompt . '
+          ' . $prompt . '<br />
+          session key: ' . $key . '
         </div>';
       return $content;
     }
@@ -864,14 +865,14 @@ class tx_powermail4dev_pi1 extends tslib_pibase
   }
 
 /**
- * promptSessionVers2( ):
+ * promptSession2x( ):
  *
  * @return    string        The content that should be displayed on the website
  * @access  private
  * @version 0.0.1
  * @since   0.0.1
  */
-  private function promptSessionVers2(  )
+  private function promptSession2x( )
   {
     $content = null; 
     
@@ -901,7 +902,8 @@ class tx_powermail4dev_pi1 extends tslib_pibase
       }
       $content = '
         <div style="border:.4em solid darkBlue;margin:0 0 1em 0;padding:1em;text-align:center;">
-          ' . $prompt . '
+          ' . $prompt . '<br />
+          session key: ' . $key . '
         </div>';
       return $content;
     }
