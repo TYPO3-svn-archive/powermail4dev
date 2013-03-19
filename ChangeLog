@@ -1,7 +1,7 @@
 0.0.3
   13-03-19
-  Bugfix
-  * i0002: Powermail 2x session key was unproper
+  Improvement
+  * i0002: Display all powermail 2x sessions
   
 0.0.2
   13-03-06
