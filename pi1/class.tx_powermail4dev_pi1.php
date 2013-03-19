@@ -869,7 +869,7 @@ class tx_powermail4dev_pi1 extends tslib_pibase
  *
  * @return    string        The content that should be displayed on the website
  * @access  private
- * @version 0.0.1
+ * @version 0.0.3
  * @since   0.0.1
  */
   private function promptSession2x( )
@@ -883,13 +883,48 @@ class tx_powermail4dev_pi1 extends tslib_pibase
     }
       // RETURN : session data should not displayed
       
-      // Get the Powermail session data
-//    $post = t3lib_div::_POST( 'tx_powermail_pi1' );
-//    $uid  = $post['form'];
-//    $key  = 'powermailFormstart';
-      // Get the Powermail session data
-    $uid  = $this->pmUid;
-    $key  = 'powermail_' . $uid;
+    $uid      = $this->pmUid;
+
+    $key      = 'powermail';
+    $content  = $content
+              . $this->promptSession2xByKey( $key );
+
+    $key      = 'powermailFormstart' . $uid;
+    $content  = $content
+              . $this->promptSession2xByKey( $key );
+
+    $key      = 'powermail_be_check_test';
+    $content  = $content
+              . $this->promptSession2xByKey( $key );
+
+    $key      = 'powermail_captcha_value';
+    $content  = $content
+              . $this->promptSession2xByKey( $key );
+
+    $key      = 'powermail_marketing';
+    $content  = $content
+              . $this->promptSession2xByKey( $key );
+
+    $key      = 'powermail_spamfactor';
+    $content  = $content
+              . $this->promptSession2xByKey( $key );
+
+    return $content;
+  }
+  
+/**
+ * promptSession2xByKey( ):
+ *
+ * @param     string        $key
+ * @return    string        The content that should be displayed on the website
+ * @access  private
+ * @version 0.0.3
+ * @since   0.0.1
+ */
+  private function promptSession2xByKey( $key )
+  {
+    $content = null; 
+    
     $sessionData = $GLOBALS['TSFE']->fe_user->getKey( 'ses', $key );
 
       // RETURN: no session data
