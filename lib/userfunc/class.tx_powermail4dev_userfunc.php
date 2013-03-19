@@ -420,6 +420,7 @@ class tx_powermail4dev_userfunc
   */
   public function sqlPowermail( $row )
   {
+    $record = null;
     $arrReturn = null; 
     
     if( ! ( $this->pmUid === null ) )
@@ -437,8 +438,122 @@ class tx_powermail4dev_userfunc
     }
     $this->extMgmVersion( 'powermail' );
 
+      // Current powermail record
+    $record = $this->sqlPowermailTtcontent( $row );
+
+      // RETURN : no row
+    if( empty( $record ) )
+    {
+      if( $this->pObj->b_drs_error )
+      {
+        $prompt = 'Abort. SQL query is empty!';
+        t3lib_div::devlog(' [WARN/SQL] '. $prompt, $this->pObj->extKey, 2 );
+      }
+      return false;
+    }
+      // RETURN : no row
+      
+    switch( true )
+    {
+      case( $this->intVersion < 1000000 ):
+        $prompt = 'ERROR: unexpected result<br />
+          powermail version is below 1.0.0<br />
+          Method: ' . __METHOD__ . ' (line ' . __LINE__ . ')<br />
+          TYPO3 extension: powermail4dev';
+        die( $prompt );
+        break;
+      case( $this->intVersion < 2000000 ):
+        $this->pmUid        = $record['uid'];  
+        $this->pmTitle      = $record['header'];  
+        $this->pmFfConfirm  = $record['tx_powermail_confirm'];
+        break;
+      case( $this->intVersion < 3000000 ):
+      default:
+        $pmFlexform         = t3lib_div::xml2array( $record['pi_flexform'] );
+        $this->pmUid        = $pmFlexform['data']['main']['lDEF']['settings.flexform.main.form']['vDEF'];
+        $this->pmTitle      = $this->sqlPowermail2xTitle( $this->pmUid );  
+        $this->pmFfConfirm  = $pmFlexform['data']['main']['lDEF']['settings.flexform.main.confirmation']['vDEF'];
+        break;
+    }
+
+    $arrReturn['uid']       = $this->pmUid;
+    $arrReturn['title']     = $this->pmTitle;
+    $arrReturn['ffConfirm'] = $this->pmFfConfirm;
+
+    return $arrReturn;
+  }
+
+ /**
+  * sqlPowermail2xTitle( $uid )  : 
+  *
+  * @param    integer         $row    : current row
+  * @return    string        $record : Record from tt_content
+  * @access private
+  * @version 0.0.3
+  * @since 0.0.3
+  */
+  private function sqlPowermail2xTitle( $uid )
+  {
+      // Query
+    $select_fields  = '*';
+    $from_table     = 'tx_powermail_domain_model_forms';
+    $where_clause   = "uid = " . $uid;
+    $groupBy        = null;
+    $orderBy        = null;
+    $limit          = null;
+      // Query
+
+      // DRS
+    if( $this->pObj->b_drs_sql )
+    {
+      $query  = $GLOBALS['TYPO3_DB']->SELECTquery
+                (
+                  $select_fields,
+                  $from_table,
+                  $where_clause,
+                  $groupBy,
+                  $orderBy,
+                  $limit
+                );
+      $prompt = $query;
+      t3lib_div::devlog(' [INFO/SQL] '. $prompt, $this->pObj->extKey, 0 );
+    }
+      // DRS
+      
+      // Execute SELECT
+    $res =  $GLOBALS['TYPO3_DB']->exec_SELECTquery
+            (
+              $select_fields,
+              $from_table,
+              $where_clause,
+              $groupBy,
+              $orderBy,
+              $limit
+            );
+      // Execute SELECT
+
+      // Current powermail record
+    $record =  $GLOBALS['TYPO3_DB']->sql_fetch_assoc( $res );
+    $title  = $record['title'];
+
+    return $title;
+  }
+  
+ /**
+  * sqlPowermailTtcontent( )  : 
+  *
+  * @param    array         $row    : current row
+  * @return    array        $record : Record from tt_content
+  * @access private
+  * @version 0.0.1
+  * @since 0.0.1
+  */
+  private function sqlPowermailTtcontent( $row )
+  {
+    $record = null;
+    
       // Page uid
-    $pid              = $row['pid'];
+    $pid = $row['pid'];
     
     if( ! $pid )
     {
@@ -512,47 +627,9 @@ class tx_powermail4dev_userfunc
       // Execute SELECT
 
       // Current powermail record
-    $pmRecord =  $GLOBALS['TYPO3_DB']->sql_fetch_assoc( $res );
+    $record =  $GLOBALS['TYPO3_DB']->sql_fetch_assoc( $res );
 
-      // RETURN : no row
-    if( empty( $pmRecord ) )
-    {
-      if( $this->pObj->b_drs_error )
-      {
-        $prompt = 'Abort. SQL query is empty!';
-        t3lib_div::devlog(' [WARN/SQL] '. $prompt, $this->pObj->extKey, 2 );
-      }
-      return false;
-    }
-      // RETURN : no row
-      
-    $this->pmUid    = $pmRecord['uid'];  
-    $this->pmTitle  = $pmRecord['header'];  
-    switch( true )
-    {
-      case( $this->intVersion < 1000000 ):
-        $prompt = 'ERROR: unexpected result<br />
-          powermail version is below 1.0.0<br />
-          Method: ' . __METHOD__ . ' (line ' . __LINE__ . ')<br />
-          TYPO3 extension: powermail4dev';
-        die( $prompt );
-        break;
-      case( $this->intVersion < 2000000 ):
-        $this->pmFfConfirm  = $pmRecord['tx_powermail_confirm'];
-        break;
-      case( $this->intVersion < 3000000 ):
-      default:
-        $pmFlexform         = t3lib_div::xml2array( $pmRecord['pi_flexform'] );
-        $this->pmUid        = $pmFlexform['data']['main']['lDEF']['settings.flexform.main.form']['vDEF'];
-        $this->pmFfConfirm  = $pmFlexform['data']['main']['lDEF']['settings.flexform.main.confirmation']['vDEF'];
-        break;
-    }
-
-    $arrReturn['uid']       = $this->pmUid;
-    $arrReturn['title']     = $this->pmTitle;
-    $arrReturn['ffConfirm'] = $this->pmFfConfirm;
-
-    return $arrReturn;
+    return $record;
   }
 
 
